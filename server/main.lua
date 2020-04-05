@@ -7,10 +7,13 @@ end)
 
 function onPlayerJoined(playerId)
 	local identifier
+	local license
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'license:') then
-			identifier = string.sub(v, 9)
+		if string.match(v, 'steam:') then
+			identifier = v
+		elseif string.match(v, 'license:') then
+			license = v
 			break
 		end
 	end
@@ -31,9 +34,10 @@ function onPlayerJoined(playerId)
 						accounts[account] = money
 					end
 
-					MySQL.Async.execute('INSERT INTO users (accounts, identifier) VALUES (@accounts, @identifier)', {
+					MySQL.Async.execute('INSERT INTO users (accounts, identifier, license) VALUES (@accounts, @identifier, @license)', {
 						['@accounts'] = json.encode(accounts),
-						['@identifier'] = identifier
+						['@identifier'] = identifier,
+						['@license'] = license,						
 					}, function(rowsChanged)
 						loadESXPlayer(identifier, playerId)
 					end)
@@ -51,8 +55,8 @@ AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
 	Citizen.Wait(100)
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'license:') then
-			identifier = string.sub(v, 9)
+		if string.match(v, 'steam:') then
+			identifier = string
 			break
 		end
 	end
