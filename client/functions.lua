@@ -292,7 +292,7 @@ ESX.Game.GetPedMugshot = function(ped, transparent)
 		end
 
 		while not IsPedheadshotReady(mugshot) do
-			Citizen.Wait(0)
+			Wait(0)
 		end
 
 		return mugshot, GetPedheadshotTxdString(mugshot)
@@ -306,7 +306,7 @@ ESX.Game.Teleport = function(entity, coords, cb)
 	if DoesEntityExist(entity) then
 		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(entity) do
-			Citizen.Wait(0)
+			Wait(0)
 		end
 
 		SetEntityCoords(entity, vector.xyz, false, false, false, false)
@@ -320,7 +320,7 @@ end
 
 ESX.Game.SpawnObject = function(model, coords, cb)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 		
 		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
@@ -337,7 +337,7 @@ end
 ESX.Game.SpawnLocalObject = function(model, coords, cb)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
 		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
@@ -363,7 +363,7 @@ end
 
 ESX.Game.SpawnVehicle = function(model, coords, heading, cb)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
 		local vehicle = CreateVehicle(model, vector.xyz, heading, true, false)
@@ -378,7 +378,7 @@ ESX.Game.SpawnVehicle = function(model, coords, heading, cb)
 
 		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(vehicle) do
-			Citizen.Wait(0)
+			Wait(0)
 		end
 
 		if cb then
@@ -390,7 +390,7 @@ end
 ESX.Game.SpawnLocalVehicle = function(model, coords, heading, cb)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
 		local vehicle = CreateVehicle(model, vector.xyz, heading, false, false)
@@ -403,7 +403,7 @@ ESX.Game.SpawnLocalVehicle = function(model, coords, heading, cb)
 		
 		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(vehicle) do
-			Citizen.Wait(0)
+			Wait(0)
 		end
 
 		if cb then
@@ -1038,7 +1038,7 @@ ESX.ShowInventory = function()
 					if type == 'item_weapon' then
 						menu1.close()
 						TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-						Citizen.Wait(1000)
+						Wait(1000)
 						TriggerServerEvent('esx:removeInventoryItem', type, item)
 					else
 						ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'inventory_item_count_remove', {
@@ -1050,7 +1050,7 @@ ESX.ShowInventory = function()
 								menu2.close()
 								menu1.close()
 								TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-								Citizen.Wait(1000)
+								Wait(1000)
 								TriggerServerEvent('esx:removeInventoryItem', type, item, quantity)
 							else
 								ESX.ShowNotification(_U('amount_invalid'))
@@ -1133,9 +1133,9 @@ AddEventHandler('esx:showHelpNotification', function(msg, thisFrame, beep, durat
 end)
 
 -- SetTimeout
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local currTime = GetGameTimer()
 
 		for i=1, #ESX.TimeoutCallbacks, 1 do

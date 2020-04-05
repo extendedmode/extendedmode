@@ -1,8 +1,8 @@
 local isLoadoutLoaded, isPaused, isDead, isFirstSpawn, pickups = false, false, false, true, {}
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if NetworkIsPlayerActive(PlayerId()) then
 			TriggerServerEvent('esx:onPlayerJoined')
@@ -22,7 +22,7 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 		RequestModel(defaultModel)
 
 		while not HasModelLoaded(defaultModel) do
-			Citizen.Wait(100)
+			Wait(100)
 		end
 
 		SetPlayerModel(PlayerId(), defaultModel)
@@ -71,7 +71,7 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 		TriggerEvent('playerSpawned') -- compatibility with old scripts, will be removed soon
 		TriggerEvent('esx:restoreLoadout')
 
-		Citizen.Wait(3000)
+		Wait(3000)
 		ShutdownLoadingScreen()
 		DoScreenFadeIn(10000)
 	end)
@@ -85,7 +85,7 @@ AddEventHandler('skinchanger:loadDefaultModel', function() isLoadoutLoaded = fal
 
 AddEventHandler('skinchanger:modelLoaded', function()
 	while not ESX.PlayerLoaded do
-		Citizen.Wait(100)
+		Wait(100)
 	end
 
 	TriggerEvent('esx:restoreLoadout')
@@ -290,7 +290,7 @@ AddEventHandler('esx:createPickup', function(pickupId, label, playerId, type, na
 		end)
 
 		while not pickupObject do
-			Citizen.Wait(10)
+			Wait(10)
 		end
 	end
 
@@ -327,7 +327,7 @@ AddEventHandler('esx:createMissingPickups', function(missingPickups)
 			end)
 
 			while not pickupObject do
-				Citizen.Wait(10)
+				Wait(10)
 			end
 		end
 
@@ -374,7 +374,7 @@ AddEventHandler('esx:deleteVehicle', function(radius)
 			local attempt = 0
 
 			while not NetworkHasControlOfEntity(entity) and attempt < 100 and DoesEntityExist(entity) do
-				Citizen.Wait(100)
+				Wait(100)
 				NetworkRequestControlOfEntity(entity)
 				attempt = attempt + 1
 			end
@@ -391,7 +391,7 @@ AddEventHandler('esx:deleteVehicle', function(radius)
 		end
 
 		while not NetworkHasControlOfEntity(vehicle) and attempt < 100 and DoesEntityExist(vehicle) do
-			Citizen.Wait(100)
+			Wait(100)
 			NetworkRequestControlOfEntity(vehicle)
 			attempt = attempt + 1
 		end
@@ -404,9 +404,9 @@ end)
 
 -- Pause menu disables HUD display
 if Config.EnableHud then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(300)
+			Wait(300)
 
 			if IsPauseMenuActive() and not isPaused then
 				isPaused = true
@@ -420,12 +420,12 @@ if Config.EnableHud then
 end
 
 -- Keep track of ammo usage
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if isDead then
-			Citizen.Wait(500)
+			Wait(500)
 		else
 			local playerPed = PlayerPedId()
 
@@ -442,9 +442,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if IsControlJustReleased(0, 289) then
 			if IsInputDisabled(0) and not isDead and not ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
@@ -456,9 +456,9 @@ end)
 
 -- Disable wanted level
 if Config.DisableWantedLevel then
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		while true do
-			Citizen.Wait(0)
+			Wait(0)
 			local playerId = PlayerId()
 
 			if GetPlayerWantedLevel(playerId) ~= 0 then
@@ -470,9 +470,9 @@ if Config.DisableWantedLevel then
 end
 
 -- Pickups
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 		local playerCoords, letSleep = GetEntityCoords(playerPed), true
 		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -492,7 +492,7 @@ Citizen.CreateThread(function()
 							local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
 							ESX.Streaming.RequestAnimDict(dict)
 							TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-							Citizen.Wait(1000)
+							Wait(1000)
 
 							TriggerServerEvent('esx:onPickup', v.id)
 							PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
@@ -513,22 +513,22 @@ Citizen.CreateThread(function()
 		end
 
 		if letSleep then
-			Citizen.Wait(500)
+			Wait(500)
 		end
 	end
 end)
 
 -- Update current player coords
-Citizen.CreateThread(function()
+CreateThread(function()
 	local previousCoords = vector3(0, 0, 0)
 
 	-- wait for player to restore coords
 	while not isLoadoutLoaded do
-		Citizen.Wait(1000)
+		Wait(1000)
 	end
 
 	while true do
-		Citizen.Wait(Config.CoordsSyncInterval)
+		Wait(Config.CoordsSyncInterval)
 		local playerPed = PlayerPedId()
 		local playerCoords = GetEntityCoords(playerPed)
 		local distance = #(playerCoords - previousCoords)

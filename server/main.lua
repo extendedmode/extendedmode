@@ -48,7 +48,7 @@ end
 AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
 	deferrals.defer()
 	local playerId, identifier = source
-	Citizen.Wait(100)
+	Wait(100)
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
 		if string.match(v, 'license:') then
