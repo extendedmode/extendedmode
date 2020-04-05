@@ -302,19 +302,15 @@ ESX.Game.GetPedMugshot = function(ped, transparent)
 end
 
 ESX.Game.Teleport = function(entity, coords, cb)
+	local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0) or vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
 	if DoesEntityExist(entity) then
-		RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
+		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(entity) do
-			RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 			Citizen.Wait(0)
 		end
 
-		SetEntityCoords(entity, coords.x, coords.y, coords.z, false, false, false, false)
-
-		if type(coords) == 'table' and coords.heading then
-			SetEntityHeading(entity, coords.heading)
-		end
+		SetEntityCoords(entity, vector.xyz, false, false, false, false)
+		SetEntityHeading(entity, vector.w)
 	end
 
 	if cb then
@@ -323,12 +319,14 @@ ESX.Game.Teleport = function(entity, coords, cb)
 end
 
 ESX.Game.SpawnObject = function(model, coords, cb)
-	local model = (type(model) == 'number' and model or GetHashKey(model))
-
+	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 	Citizen.CreateThread(function()
 		ESX.Streaming.RequestModel(model)
-
-		local obj = CreateObject(model, coords.x, coords.y, coords.z, true, false, true)
+		
+		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
+		-- as an Object instead of a hash so it doesn't automatically hash the item
+		model = type(model) == 'number' and model or GetHashKey(model)
+		local obj = CreateObject(model, vector.xyz, true, false, true)
 
 		if cb then
 			cb(obj)
@@ -337,12 +335,15 @@ ESX.Game.SpawnObject = function(model, coords, cb)
 end
 
 ESX.Game.SpawnLocalObject = function(model, coords, cb)
-	local model = (type(model) == 'number' and model or GetHashKey(model))
+	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 
 	Citizen.CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
-		local obj = CreateObject(model, coords.x, coords.y, coords.z, false, false, true)
+		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
+		-- as an Object instead of a hash so it doesn't automatically hash the item
+		model = type(model) == 'number' and model or GetHashKey(model)
+		local obj = CreateObject(model, vector.xyz, false, false, true)
 
 		if cb then
 			cb(obj)
@@ -360,29 +361,25 @@ ESX.Game.DeleteObject = function(object)
 	DeleteObject(object)
 end
 
-ESX.Game.SpawnVehicle = function(modelName, coords, heading, cb)
-	local model = (type(modelName) == 'number' and modelName or GetHashKey(modelName))
-
+ESX.Game.SpawnVehicle = function(model, coords, heading, cb)
+	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 	Citizen.CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
-		local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, false)
-		local id      = NetworkGetNetworkIdFromEntity(vehicle)
+		local vehicle = CreateVehicle(model, vector.xyz, heading, true, false)
+		local id = NetworkGetNetworkIdFromEntity(vehicle)
 
 		SetNetworkIdCanMigrate(id, true)
 		SetEntityAsMissionEntity(vehicle, true, false)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
 		SetVehicleNeedsToBeHotwired(vehicle, false)
 		SetModelAsNoLongerNeeded(model)
+		SetVehRadioStation(vehicle, 'OFF')
 
-		RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
+		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(vehicle) do
-			RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 			Citizen.Wait(0)
 		end
-
-		SetVehRadioStation(vehicle, 'OFF')
 
 		if cb then
 			cb(vehicle)
@@ -390,26 +387,24 @@ ESX.Game.SpawnVehicle = function(modelName, coords, heading, cb)
 	end)
 end
 
-ESX.Game.SpawnLocalVehicle = function(modelName, coords, heading, cb)
-	local model = (type(modelName) == 'number' and modelName or GetHashKey(modelName))
+ESX.Game.SpawnLocalVehicle = function(model, coords, heading, cb)
+	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 
 	Citizen.CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
-		local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, false, false)
+		local vehicle = CreateVehicle(model, vector.xyz, heading, false, false)
 
 		SetEntityAsMissionEntity(vehicle, true, false)
 		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
 		SetVehicleNeedsToBeHotwired(vehicle, false)
 		SetModelAsNoLongerNeeded(model)
-		RequestCollisionAtCoord(coords.x, coords.y, coords.z)
-
+		SetVehRadioStation(vehicle, 'OFF')
+		
+		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(vehicle) do
-			RequestCollisionAtCoord(coords.x, coords.y, coords.z)
 			Citizen.Wait(0)
 		end
-
-		SetVehRadioStation(vehicle, 'OFF')
 
 		if cb then
 			cb(vehicle)
