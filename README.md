@@ -59,9 +59,9 @@ git clone https://github.com/ESX-Org/esx_menu_list [ex]/[ui]/esx_menu_list
 
 ```
 add_principal group.admin group.user
-add_ace resource.es_extended command.add_ace allow
-add_ace resource.es_extended command.add_principal allow
-add_ace resource.es_extended command.remove_principal allow
+add_ace resource.extendedmode command.add_ace allow
+add_ace resource.extendedmode command.add_principal allow
+add_ace resource.extendedmode command.remove_principal allow
 
 start mysql-async
 start extendedmode
