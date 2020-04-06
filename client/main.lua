@@ -15,7 +15,6 @@ RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(playerData)
 	ESX.PlayerLoaded = true
 	ESX.PlayerData = playerData
-	local ped = PlayerPedId()
 
 	-- check if player is coming from loading screen
 	if GetEntityModel(PlayerPedId()) == `PLAYER_ZERO` then
