@@ -17,12 +17,12 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 	ESX.PlayerData = playerData
 
 	-- check if player is coming from loading screen
-	if GetEntityModel(PlayerPedId()) == GetHashKey('PLAYER_ZERO') then
-		local defaultModel = GetHashKey('a_m_y_stbla_02')
+	if GetEntityModel(PlayerPedId()) == `PLAYER_ZERO` then
+		local defaultModel = `a_m_y_stbla_02`
+		
 		RequestModel(defaultModel)
-
 		while not HasModelLoaded(defaultModel) do
-			Wait(100)
+			Wait(0)
 		end
 
 		SetPlayerModel(PlayerId(), defaultModel)
@@ -183,52 +183,46 @@ end)
 RegisterNetEvent('esx:addWeapon')
 AddEventHandler('esx:addWeapon', function(weaponName, ammo)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 
-	GiveWeaponToPed(playerPed, weaponHash, ammo, false, false)
+	GiveWeaponToPed(playerPed, weaponName, ammo, false, false)
 end)
 
 RegisterNetEvent('esx:addWeaponComponent')
 AddEventHandler('esx:addWeaponComponent', function(weaponName, weaponComponent)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 	local componentHash = ESX.GetWeaponComponent(weaponName, weaponComponent).hash
 
-	GiveWeaponComponentToPed(playerPed, weaponHash, componentHash)
+	GiveWeaponComponentToPed(playerPed, weaponName, componentHash)
 end)
 
 RegisterNetEvent('esx:setWeaponAmmo')
 AddEventHandler('esx:setWeaponAmmo', function(weaponName, weaponAmmo)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 
-	SetPedAmmo(playerPed, weaponHash, weaponAmmo)
+	SetPedAmmo(playerPed, weaponName, weaponAmmo)
 end)
 
 RegisterNetEvent('esx:setWeaponTint')
 AddEventHandler('esx:setWeaponTint', function(weaponName, weaponTintIndex)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 
-	SetPedWeaponTintIndex(playerPed, weaponHash, weaponTintIndex)
+	SetPedWeaponTintIndex(playerPed, weaponName, weaponTintIndex)
 end)
 
 RegisterNetEvent('esx:removeWeapon')
 AddEventHandler('esx:removeWeapon', function(weaponName)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 
-	RemoveWeaponFromPed(playerPed, weaponHash)
-	SetPedAmmo(playerPed, weaponHash, 0) -- remove leftover ammo
+	RemoveWeaponFromPed(playerPed, weaponName)
+	SetPedAmmo(playerPed, weaponName, 0) -- remove leftover ammo
 end)
 
 RegisterNetEvent('esx:removeWeaponComponent')
 AddEventHandler('esx:removeWeaponComponent', function(weaponName, weaponComponent)
 	local playerPed = PlayerPedId()
-	local weaponHash = GetHashKey(weaponName)
 	local componentHash = ESX.GetWeaponComponent(weaponName, weaponComponent).hash
 
-	RemoveWeaponComponentFromPed(playerPed, weaponHash, componentHash)
+	RemoveWeaponComponentFromPed(playerPed, weaponName, componentHash)
 end)
 
 RegisterNetEvent('esx:teleport')
@@ -430,7 +424,7 @@ CreateThread(function()
 			local playerPed = PlayerPedId()
 
 			if IsPedShooting(playerPed) then
-				local _,weaponHash = GetCurrentPedWeapon(playerPed, true)
+				local _, weaponHash = GetCurrentPedWeapon(playerPed, true)
 				local weapon = ESX.GetWeaponFromHash(weaponHash)
 
 				if weapon then
@@ -456,17 +450,9 @@ end)
 
 -- Disable wanted level
 if Config.DisableWantedLevel then
-	CreateThread(function()
-		while true do
-			Wait(0)
-			local playerId = PlayerId()
-
-			if GetPlayerWantedLevel(playerId) ~= 0 then
-				SetPlayerWantedLevel(playerId, 0, false)
-				SetPlayerWantedLevelNow(playerId, false)
-			end
-		end
-	end)
+	-- Previous they were creating a contstantly running loop to check if the wanted level
+	-- changed and then setting back to 0. This is all thats needed to disable a wanted level.
+	SetMaxWantedLevel(0)
 end
 
 -- Pickups
@@ -475,7 +461,8 @@ CreateThread(function()
 		Wait(0)
 		local playerPed = PlayerPedId()
 		local playerCoords, letSleep = GetEntityCoords(playerPed), true
-		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+		-- For whatever reason there was a constant check to get the closest player here when it
+		-- wasn't even being used
 
 		for k,v in pairs(pickups) do
 			local distance = #(playerCoords - v.coords)
@@ -502,11 +489,7 @@ CreateThread(function()
 					label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
 				end
 
-				ESX.Game.Utils.DrawText3D({
-					x = v.coords.x,
-					y = v.coords.y,
-					z = v.coords.z + 0.25
-				}, label, 1.2, 1)
+				ESX.Game.Utils.DrawText3D(vec(v.coords.x, v.coords.y, v.coords.z + 0.25), label, 1.2, 1)
 			elseif v.inRange then
 				v.inRange = false
 			end
