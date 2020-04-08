@@ -102,3 +102,5 @@ dependencies {
 	'mysql-async',
 	'async'
 }
+
+provide 'es_extended'

@@ -321,7 +321,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			TriggerEvent('esx:setJob', self.source, self.job, lastJob)
 			self.triggerEvent('esx:setJob', self.job)
 		else
-			print(('[es_extended] [^3WARNING^7] Ignoring invalid .setJob() usage for "%s"'):format(self.identifier))
+			print(('[ExtendedMode] [^3WARNING^7] Ignoring invalid .setJob() usage for "%s"'):format(self.identifier))
 		end
 	end
 

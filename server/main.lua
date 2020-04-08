@@ -109,7 +109,7 @@ function loadESXPlayer(identifier, playerId)
 			if ESX.DoesJobExist(job, grade) then
 				jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
 			else
-				print(('[es_extended] [^3WARNING^7] Ignoring invalid job for %s [job: %s, grade: %s]'):format(identifier, job, grade))
+				print(('[ExtendedMode] [^3WARNING^7] Ignoring invalid job for %s [job: %s, grade: %s]'):format(identifier, job, grade))
 				job, grade = 'unemployed', '0'
 				jobObject, gradeObject = ESX.Jobs[job], ESX.Jobs[job].grades[grade]
 			end
@@ -139,7 +139,7 @@ function loadESXPlayer(identifier, playerId)
 					if item then
 						foundItems[name] = count
 					else
-						print(('[es_extended] [^3WARNING^7] Ignoring invalid item "%s" for "%s"'):format(name, identifier))
+						print(('[ExtendedMode] [^3WARNING^7] Ignoring invalid item "%s" for "%s"'):format(name, identifier))
 					end
 				end
 			end
@@ -196,7 +196,7 @@ function loadESXPlayer(identifier, playerId)
 			if result[1].position and result[1].position ~= '' then
 				userData.coords = json.decode(result[1].position)
 			else
-				print('[es_extended] [^3WARNING^7] Column "position" in "users" table is missing required default value. Using backup coords, fix your database.')
+				print('[ExtendedMode] [^3WARNING^7] Column "position" in "users" table is missing required default value. Using backup coords, fix your database.')
 				userData.coords = {x = -269.4, y = -955.3, z = 31.2, heading = 205.8}
 			end
 
