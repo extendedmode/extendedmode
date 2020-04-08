@@ -1,10 +1,7 @@
 fx_version 'adamant'
-
 game 'gta5'
-
-description 'ES Extended'
-
-version '1.2.0'
+description 'extendedmode'
+version '0.0.1'
 
 server_scripts {
 	'@async/async.lua',

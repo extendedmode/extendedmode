@@ -25,6 +25,7 @@ MySQL.ready(function()
 				label = v.label,
 				weight = v.weight,
 				rare = v.rare,
+				limit = v.limit,
 				canRemove = v.can_remove
 			}
 		end
