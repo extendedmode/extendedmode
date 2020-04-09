@@ -18,3 +18,4 @@ Config.MaxWeight            = 24000   -- the max inventory weight without backpa
 Config.PaycheckInterval     = 60 * 60000 -- how often to recieve pay checks in milliseconds
 
 Config.EnableDebug          = false
+Config.PrimaryIdentifier	= "steam" -- Options: steam, license (social club), fivem, discord, xbl, live (default steam, recommended: fivem) this SHOULD function with most older scripts too!

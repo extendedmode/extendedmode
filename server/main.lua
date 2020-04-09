@@ -8,13 +8,12 @@ end)
 function onPlayerJoined(playerId)
 	local identifier
 	local license
-
+	
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'steam:') then
+		if string.match(v, Config.PrimaryIdentifier) then
 			identifier = v
 		elseif string.match(v, 'license:') then
 			license = v
-			break
 		end
 	end
 
@@ -55,8 +54,8 @@ AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
 	Wait(100)
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'steam:') then
-			identifier = string
+		if string.match(v, Config.PrimaryIdentifier) then
+			identifier = v
 			break
 		end
 	end
