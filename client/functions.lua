@@ -1,24 +1,42 @@
-ESX                           = {}
-ESX.PlayerData                = {}
-ESX.PlayerLoaded              = false
-ESX.CurrentRequestId          = 0
-ESX.ServerCallbacks           = {}
-ESX.TimeoutCallbacks          = {}
+ESX = {}
+ESX.PlayerData = {}
+ESX.PlayerLoaded = false
+ESX.CurrentRequestId = 0
+ESX.ServerCallbacks = {}
+ESX.TimeoutCallbacks = {}
 
-ESX.UI                        = {}
-ESX.UI.HUD                    = {}
+ESX.UI = {}
+ESX.UI.HUD = {}
 ESX.UI.HUD.RegisteredElements = {}
-ESX.UI.Menu                   = {}
-ESX.UI.Menu.RegisteredTypes   = {}
-ESX.UI.Menu.Opened            = {}
+ESX.UI.Menu = {}
+ESX.UI.Menu.RegisteredTypes = {}
+ESX.UI.Menu.Opened = {}
 
-ESX.Game                      = {}
-ESX.Game.Utils                = {}
+ESX.Game = {}
+ESX.Game.Utils = {}
 
-ESX.Scaleform                 = {}
-ESX.Scaleform.Utils           = {}
+ESX.Scaleform = {}
+ESX.Scaleform.Utils = {}
 
-ESX.Streaming                 = {}
+ESX.Streaming = {}
+
+-- Add a seperate table for ExtendedMode functions, but using metatables to limit feature usage on the ESX table
+-- This is to provide backward compatablity with ESX but not add new features to the old ESX tables.
+-- Note: Please add all new namespaces to ExM _after_ this block
+do
+    local function processTable(thisTable)
+        local thisObject = setmetatable({}, {
+            __index = thisTable
+        })
+        for key, value in pairs(thisTable) do
+            if type(value) == "table" then
+                thisObject[key] = processTable(value)
+            end
+        end
+        return thisObject
+    end
+    ExM = processTable(ESX)
+end
 
 ESX.SetTimeout = function(msec, cb)
 	table.insert(ESX.TimeoutCallbacks, {
