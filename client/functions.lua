@@ -281,6 +281,14 @@ ESX.UI.ShowInventoryItemNotification = function(add, item, count)
 	})
 end
 
+ExM.Game.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
+	-- Quick simple function to run an animation
+	local flags = upperbodyOnly == true and 16 or 0
+	local runTime = duration ~= nil and duration or -1
+	ESX.Streaming.RequestAnimDict(animDict)
+	TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+end
+
 ESX.Game.GetPedMugshot = function(ped, transparent)
 	if DoesEntityExist(ped) then
 		local mugshot
