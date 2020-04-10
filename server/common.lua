@@ -10,13 +10,35 @@ ESX.PickupId = 0
 ESX.Jobs = {}
 ESX.RegisteredCommands = {}
 
+-- Add a seperate table for ExtendedMode functions, but using metatables to limit feature usage on the ESX table
+-- This is to provide backward compatablity with ESX but not add new features to the old ESX tables.
+-- Note: Please add all new namespaces to ExM _after_ this block
+do
+    local function processTable(thisTable)
+        local thisObject = setmetatable({}, {
+            __index = thisTable
+        })
+        for key, value in pairs(thisTable) do
+            if type(value) == "table" then
+                thisObject[key] = processTable(value)
+            end
+        end
+        return thisObject
+    end
+    ExM = processTable(ESX)
+end
+
 AddEventHandler('esx:getSharedObject', function(cb)
 	cb(ESX)
 end)
 
-function getSharedObject()
+exports("getSharedObject", function()
 	return ESX
-end
+end)
+
+exports("getExtendedModeObject", function()
+	return ExM
+end)
 
 MySQL.ready(function()
 	MySQL.Async.fetchAll('SELECT * FROM items', {}, function(result)

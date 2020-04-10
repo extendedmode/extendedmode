@@ -84,7 +84,9 @@ files {
 
 	'html/img/accounts/bank.png',
 	'html/img/accounts/black_money.png',
-	'html/img/accounts/money.png'
+	'html/img/accounts/money.png',
+
+	'imports.lua'
 }
 
 exports {
