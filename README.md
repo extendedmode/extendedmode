@@ -5,8 +5,6 @@ extendedmode is a community edition fork of es_extended and will be maintained b
 - Allow even versions of ESX scripts pre 1.2 to continue to function with as few edits as possible.
 - Ensure backwards compatibility/new features at the same time as adding optimisations and general other boosts.
 
-
-
 ## About es_extended
 es_extended is a roleplay framework for FiveM. ESX is short for EssentialMode Extended. The to-go framework for creating an economy based roleplay server on FiveM and most popular on the platform, too!
 
@@ -27,6 +25,10 @@ ESX was initially developed by Gizz back in 2017 for his friend as the were crea
 - Easy to use API for developers to easily integrate EX to their projects
 - Register your own commands easily, with argument validation, chat suggestion and using FXServer ACL
 
+## Extendedmode Exclusive Features
+
+We have made some exclusive features for extendedmode only, find them all here; [Functions](FUNCTIONS.md)
+
 ## Requirements
 
 - [mysql-async](https://github.com/brouznouf/fivem-mysql-async)
@@ -34,12 +36,11 @@ ESX was initially developed by Gizz back in 2017 for his friend as the were crea
 
 ### Using Git
 
-cd resources
-git clone https://github.com/extendedmode/extendedmode extendedmode
-git clone https://github.com/ESX-Org/esx_menu_default [ex]/[ui]/esx_menu_default
-git clone https://github.com/ESX-Org/esx_menu_dialog [ex]/[ui]/esx_menu_dialog
-git clone https://github.com/ESX-Org/esx_menu_list [ex]/[ui]/esx_menu_list
-
+- cd resources
+- git clone https://github.com/extendedmode/extendedmode extendedmode
+- git clone https://github.com/ESX-Org/esx_menu_default [ex]/[ui]/esx_menu_default
+- git clone https://github.com/ESX-Org/esx_menu_dialog [ex]/[ui]/esx_menu_dialog
+- git clone https://github.com/ESX-Org/esx_menu_list [ex]/[ui]/esx_menu_list
 
 ### Manually
 
@@ -70,8 +71,6 @@ start esx_menu_default
 start esx_menu_list
 start esx_menu_dialog
 ```
-
-
 
 ## Legal
 
