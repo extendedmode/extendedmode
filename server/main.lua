@@ -12,7 +12,8 @@ function onPlayerJoined(playerId)
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
 		if string.match(v, Config.PrimaryIdentifier) then
 			identifier = v
-		elseif string.match(v, 'license:') then
+		end
+		if string.match(v, 'license:') then
 			license = v
 		end
 	end
