@@ -1,5 +1,5 @@
 CREATE TABLE `users` (
-	`identifier` VARCHAR(40) NOT NULL,
+	`identifier` VARCHAR(60) NOT NULL,
 	`license` VARCHAR(60) DEFAULT NULL,
 	`accounts` LONGTEXT NULL DEFAULT NULL,
 	`group` VARCHAR(50) NULL DEFAULT 'user',
