@@ -1,23 +1,16 @@
-fx_version 'adamant'
+fx_version 'bodacious'
 game 'gta5'
 description 'extendedmode'
 version '0.0.1'
+
+resource_type 'gametype' { name = 'extendedmode' }
 
 server_scripts {
 	'@async/async.lua',
 	'@mysql-async/lib/MySQL.lua',
 
 	'locale.lua',
-	'locales/de.lua',
-	'locales/br.lua',
-	'locales/fr.lua',
-	'locales/en.lua',
-	'locales/fi.lua',
-	'locales/sv.lua',
-	'locales/pl.lua',
-	'locales/cs.lua',
-	'locales/sc.lua',
-	'locales/tc.lua',
+	'locales/*.lua',
 
 	'config.lua',
 	'config.weapons.lua',
@@ -36,16 +29,7 @@ server_scripts {
 
 client_scripts {
 	'locale.lua',
-	'locales/de.lua',
-	'locales/br.lua',
-	'locales/fr.lua',
-	'locales/en.lua',
-	'locales/fi.lua',
-	'locales/sv.lua',
-	'locales/pl.lua',
-	'locales/cs.lua',
-	'locales/sc.lua',
-	'locales/tc.lua',
+	'locales/*.lua',
 
 	'config.lua',
 	'config.weapons.lua',

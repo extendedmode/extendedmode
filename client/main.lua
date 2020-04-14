@@ -15,24 +15,9 @@ RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(playerData)
 	ESX.PlayerLoaded = true
 	ESX.PlayerData = playerData
-
-	-- check if player is coming from loading screen
-	if GetEntityModel(PlayerPedId()) == `PLAYER_ZERO` then
-		local defaultModel = `a_m_y_stbla_02`
-		
-		RequestModel(defaultModel)
-		while not HasModelLoaded(defaultModel) do
-			Wait(0)
-		end
-
-		SetPlayerModel(PlayerId(), defaultModel)
-		local playerPed = PlayerPedId()
-
-		SetPedDefaultComponentVariation(playerPed)
-		SetPedRandomComponentVariation(playerPed, true)
-		SetModelAsNoLongerNeeded(defaultModel)
-		FreezeEntityPosition(playerPed, false)
-	end
+	
+	-- Removed some unnecessary statement here checking if you were Michael, it did nothing really.
+	-- Was also kind of broken because anyone who has a SP save no using Michael wouldn't even get it.
 
 	local playerPed = PlayerPedId()
 
@@ -59,21 +44,18 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 		})
 	end
 
-	ESX.Game.Teleport(playerPed, {
+	-- Using spawnmanager now to spawn the player, this is the right way to do it, and it transitions better.
+	exports.spawnmanager:spawnPlayer({
 		x = playerData.coords.x,
 		y = playerData.coords.y,
-		z = playerData.coords.z + 0.5,
-		heading = playerData.coords.heading
+		z = playerData.coords.z,
+		heading = playerData.coords.heading,
+		skipFade = false
 	}, function()
 		isLoadoutLoaded = true
 		TriggerServerEvent('esx:onPlayerSpawn')
 		TriggerEvent('esx:onPlayerSpawn')
-		TriggerEvent('playerSpawned') -- compatibility with old scripts, will be removed soon
 		TriggerEvent('esx:restoreLoadout')
-
-		Wait(3000)
-		ShutdownLoadingScreen()
-		DoScreenFadeIn(10000)
 	end)
 end)
 
