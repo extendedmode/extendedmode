@@ -19,3 +19,9 @@ Config.PaycheckInterval     = 60 * 60000 -- how often to recieve pay checks in m
 
 Config.EnableDebug          = false
 Config.PrimaryIdentifier	= "steam" -- Options: steam, license (social club), fivem, discord, xbl, live (default steam, recommended: fivem) this SHOULD function with most older scripts too!
+
+-- The default player model you will use if no other scripts control your player model
+-- We have set a MP ped as default since if you use another script that controls your player model
+-- then this will make them invisible until the actual outfit/model has loaded, this looks better than
+-- loading another model then changing it immediately after
+Config.DefaultPlayerModel	= `mp_m_freemode_01` 
