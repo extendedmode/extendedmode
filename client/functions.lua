@@ -299,12 +299,20 @@ ESX.UI.ShowInventoryItemNotification = function(add, item, count)
 	})
 end
 
+ExM.Game.CreatePed = function(pedModel, pedCoords, isNetworked, pedType)
+	local vector = type(pedCoords) == "vector4" and pedCoords or type(pedCoords) == "vector3" and vector4(pedCoords, 0.0)
+	pedType = pedType ~= nil and pedType or 4
+	ESX.Streaming.RequestModel(pedModel)
+	return CreatePed(pedType, pedModel, vector, isNetworked)
+end
+
 ExM.Game.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
 	-- Quick simple function to run an animation
 	local flags = upperbodyOnly == true and 16 or 0
 	local runTime = duration ~= nil and duration or -1
 	ESX.Streaming.RequestAnimDict(animDict)
 	TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+	RemoveAnimDict(animDict)
 end
 
 ESX.Game.GetPedMugshot = function(ped, transparent)
