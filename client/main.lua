@@ -50,6 +50,7 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 		y = playerData.coords.y,
 		z = playerData.coords.z,
 		heading = playerData.coords.heading,
+		model = Config.DefaultPlayerModel,
 		skipFade = false
 	}, function()
 		isLoadoutLoaded = true
