@@ -6,7 +6,6 @@ version '0.0.1'
 resource_type 'gametype' { name = 'extendedmode' }
 
 server_scripts {
-	'@async/async.lua',
 	'@mysql-async/lib/MySQL.lua',
 
 	'locale.lua',
@@ -83,7 +82,6 @@ server_exports {
 
 dependencies {
 	'mysql-async',
-	'async'
 }
 
 provide 'es_extended'

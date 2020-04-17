@@ -22,26 +22,28 @@ function onPlayerJoined(playerId)
 		if ESX.GetPlayerFromIdentifier(identifier) then
 			DropPlayer(playerId, ('there was an error loading your character!\nError code: identifier-active-ingame\n\nThis error is caused by a player on this server who has the same identifier as you have. Make sure you are not playing on the same Rockstar account.\n\nYour Rockstar identifier: %s'):format(identifier))
 		else
-			MySQL.Async.fetchScalar('SELECT 1 FROM users WHERE identifier = @identifier', {
-				['@identifier'] = identifier
-			}, function(result)
-				if result then
-					loadESXPlayer(identifier, playerId)
-				else
-					local accounts = {}
-
-					for account,money in pairs(Config.StartingAccountMoney) do
-						accounts[account] = money
-					end
-
-					MySQL.Async.execute('INSERT INTO users (accounts, identifier, license) VALUES (@accounts, @identifier, @license)', {
-						['@accounts'] = json.encode(accounts),
-						['@identifier'] = identifier,
-						['@license'] = license,						
-					}, function(rowsChanged)
+			MySQL.ready(function()
+				MySQL.Async.fetchScalar('SELECT 1 FROM users WHERE identifier = @identifier', {
+					['@identifier'] = identifier
+				}, function(result)
+					if result then
 						loadESXPlayer(identifier, playerId)
-					end)
-				end
+					else
+						local accounts = {}
+
+						for account,money in pairs(Config.StartingAccountMoney) do
+							accounts[account] = money
+						end
+
+						MySQL.Async.execute('INSERT INTO users (accounts, identifier, license) VALUES (@accounts, @identifier, @license)', {
+							['@accounts'] = json.encode(accounts),
+							['@identifier'] = identifier,
+							['@license'] = license,						
+						}, function(rowsChanged)
+							loadESXPlayer(identifier, playerId)
+						end)
+					end
+				end)
 			end)
 		end
 	else
@@ -74,8 +76,6 @@ end)
 
 
 function loadESXPlayer(identifier, playerId)
-	local tasks = {}
-
 	local userData = {
 		accounts = {},
 		inventory = {},
@@ -85,7 +85,7 @@ function loadESXPlayer(identifier, playerId)
 		weight = 0
 	}
 
-	table.insert(tasks, function(cb)
+	MySQL.ready(function()
 		MySQL.Async.fetchAll('SELECT accounts, job, job_grade, `group`, loadout, position, inventory FROM users WHERE identifier = @identifier', {
 			['@identifier'] = identifier
 		}, function(result)
@@ -205,28 +205,25 @@ function loadESXPlayer(identifier, playerId)
 				userData.coords = {x = -269.4, y = -955.3, z = 31.2, heading = 205.8}
 			end
 
-			cb()
+			-- Create Extended Player Object
+			local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job, userData.loadout, userData.playerName, userData.coords)
+			ESX.Players[playerId] = xPlayer
+			TriggerEvent('esx:playerLoaded', playerId, xPlayer)
+
+			xPlayer.triggerEvent('esx:playerLoaded', {
+				accounts = xPlayer.getAccounts(),
+				coords = xPlayer.getCoords(),
+				identifier = xPlayer.getIdentifier(),
+				inventory = xPlayer.getInventory(),
+				job = xPlayer.getJob(),
+				loadout = xPlayer.getLoadout(),
+				maxWeight = xPlayer.maxWeight,
+				money = xPlayer.getMoney()
+			})
+
+			xPlayer.triggerEvent('esx:createMissingPickups', ESX.Pickups)
+			xPlayer.triggerEvent('esx:registerSuggestions', ESX.RegisteredCommands)
 		end)
-	end)
-
-	Async.parallel(tasks, function(results)
-		local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job, userData.loadout, userData.playerName, userData.coords)
-		ESX.Players[playerId] = xPlayer
-		TriggerEvent('esx:playerLoaded', playerId, xPlayer)
-
-		xPlayer.triggerEvent('esx:playerLoaded', {
-			accounts = xPlayer.getAccounts(),
-			coords = xPlayer.getCoords(),
-			identifier = xPlayer.getIdentifier(),
-			inventory = xPlayer.getInventory(),
-			job = xPlayer.getJob(),
-			loadout = xPlayer.getLoadout(),
-			maxWeight = xPlayer.maxWeight,
-			money = xPlayer.getMoney()
-		})
-
-		xPlayer.triggerEvent('esx:createMissingPickups', ESX.Pickups)
-		xPlayer.triggerEvent('esx:registerSuggestions', ESX.RegisteredCommands)
 	end)
 end
 

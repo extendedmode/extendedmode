@@ -77,7 +77,7 @@ MySQL.ready(function()
 		end)
 	end)
 
-	print('[ExtendedMode] [^2INFO^7] ESX developed by ESX-Org has been initialized')
+	print('[ExtendedMode] [^2INFO^7] ExtendedMode has been initialized')
 end)
 
 RegisterServerEvent('esx:clientLog')
