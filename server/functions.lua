@@ -164,9 +164,7 @@ ESX.TriggerServerCallback = function(name, requestId, source, cb, ...)
 end
 
 ESX.SavePlayer = function(xPlayer, cb)
-	local asyncTasks = {}
-
-	table.insert(asyncTasks, function(cb)
+	MySQL.ready(function()
 		MySQL.Async.execute('UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier', {
 			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
 			['@job'] = xPlayer.job.name,
@@ -176,35 +174,36 @@ ESX.SavePlayer = function(xPlayer, cb)
 			['@position'] = json.encode(xPlayer.getCoords()),
 			['@identifier'] = xPlayer.getIdentifier(),
 			['@inventory'] = json.encode(xPlayer.getInventory(true))
-		}, function(rowsChanged)
-			cb()
-		end)
-	end)
-
-	Async.parallel(asyncTasks, function(results)
-		print(('[ExtendedMode] [^2INFO^7] Saved player "%s^7"'):format(xPlayer.getName()))
-
-		if cb then
-			cb()
-		end
+		}, cb)
 	end)
 end
 
 ESX.SavePlayers = function(cb)
-	local xPlayers, asyncTasks = ESX.GetPlayers(), {}
-
-	for i=1, #xPlayers, 1 do
-		table.insert(asyncTasks, function(cb)
-			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-			ESX.SavePlayer(xPlayer, cb)
-		end)
+	-- Create sqls table
+	local sqls = {}
+	
+	-- Add each player save query and params to the two tables
+	for _, xPlayer in ipairs(ESX.Players) do
+		local query = 'UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier'
+		local parameters = {
+			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
+			['@job'] = xPlayer.job.name,
+			['@job_grade'] = xPlayer.job.grade,
+			['@group'] = xPlayer.getGroup(),
+			['@loadout'] = json.encode(xPlayer.getLoadout(true)),
+			['@position'] = json.encode(xPlayer.getCoords()),
+			['@identifier'] = xPlayer.getIdentifier(),
+			['@inventory'] = json.encode(xPlayer.getInventory(true))
+		}
+		table.insert(sqls, {
+			query = query,
+			parameters = parameters
+		})
 	end
 
-	Async.parallelLimit(asyncTasks, 8, function(results)
-		print(('[ExtendedMode] [^2INFO^7] Saved %s player(s)'):format(#xPlayers))
-		if cb then
-			cb()
-		end
+	-- Execute the transaction
+	MySQL.ready(function()
+		MySQL.Async.transaction(sqls, cb)
 	end)
 end
 
