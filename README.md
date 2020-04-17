@@ -1,5 +1,5 @@
 # extendedmode
-extendedmode is a community edition fork of es_extended and will be maintained by various trusted members of the fivem community.
+extendedmode is a community edition fork of es_extended (better known as ESX) and will be maintained by various trusted members of the FiveM community.
 
 ## Primary goals for this project
 - Allow even versions of ESX scripts pre 1.2 to continue to function with as few edits as possible.
@@ -12,6 +12,8 @@ ESX was initially developed by Gizz back in 2017 for his friend as the were crea
 
 ## Links & Read more
 
+- [FiveM Forum Thread]() (coming soon!)
+- [ESX Migration Guide]() (coming soon!)
 - [FiveM Native Reference](https://runtime.fivem.net/doc/reference.html)
 
 ## Features
@@ -25,63 +27,72 @@ ESX was initially developed by Gizz back in 2017 for his friend as the were crea
 - Easy to use API for developers to easily integrate EX to their projects
 - Register your own commands easily, with argument validation, chat suggestion and using FXServer ACL
 
-## Extendedmode Exclusive Features
+## extendedmode Exclusive Features
 
-We have made some exclusive features for extendedmode only, find them all here; [Functions](FUNCTIONS.md)
+We have made some exclusive features for extendedmode only, find them all here: [Functions](FUNCTIONS.md)
 
 ## Requirements
 
-- [mysql-async](https://github.com/brouznouf/fivem-mysql-async)
-- [async](https://github.com/ESX-Org/async)
+- A fully configured installation of [mysql-async](https://github.com/brouznouf/fivem-mysql-async) (or equivalent)
 
-### Using Git
+## Using
 
-- cd resources
-- git clone https://github.com/extendedmode/extendedmode extendedmode
-- git clone https://github.com/ESX-Org/esx_menu_default [ex]/[ui]/esx_menu_default
-- git clone https://github.com/ESX-Org/esx_menu_dialog [ex]/[ui]/esx_menu_dialog
-- git clone https://github.com/ESX-Org/esx_menu_list [ex]/[ui]/esx_menu_list
+Be warned that extendedmode is in ALPHA stages and is **not** ready for production use.
 
-### Manually
+If you already have an ESX installation please see [this]() guide! (coming soon!)
 
-- Download https://github.com/extendedmode/extendedmode/releases/latest
-- Put it in the `resource/[extended]` directory
-- Download https://github.com/ESX-Org/esx_menu_default/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
-- Download https://github.com/ESX-Org/esx_menu_dialog/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
-- Download https://github.com/ESX-Org/esx_menu_list/releases/latest
-- Put it in the `resource/[ex]/[ui]` directory
+### Downloading
+
+While it is recommended that you organise your resources into sub directories, FXServer allows you to place resources anywhere in the `resources` provided that you do not place them within other resources or directories with names not surrounded by `[]`.
+
+#### Using Git
+
+- `cd resources`
+- `git clone https://github.com/extendedmode/extendedmode extendedmode`
+- `git clone https://github.com/ESX-Org/esx_menu_default esx_menu_default`
+- `git clone https://github.com/ESX-Org/esx_menu_dialog esx_menu_dialog`
+- `git clone https://github.com/ESX-Org/esx_menu_list esx_menu_list`
+
+#### Manually
+
+- Download [extendedmode](https://github.com/extendedmode/extendedmode/releases/latest) into the `resources` directory
+- Download [esx_menu_default](https://github.com/ESX-Org/esx_menu_default/releases/latest) into the `resources` directory
+- Download [esx_menu_dialog](https://github.com/ESX-Org/esx_menu_dialog/releases/latest) into the `resources` directory
+- Download [esx_menu_list](https://github.com/ESX-Org/esx_menu_list/releases/latest) into the `resources` directory
 
 ### Installation
 
-- Import `extendedmode.sql` in your database
-- Configure your `server.cfg` to look like this
+- Import `extendedmode.sql` in an SQL database
+- Configure your `server.cfg` like the example below
 
 ```
+# The included fivem resource needs to be disabled at the moment due to a known issue with mapmanager, this will be fixed soon
+#ensure fivem
+
 add_principal group.admin group.user
 add_ace resource.extendedmode command.add_ace allow
 add_ace resource.extendedmode command.add_principal allow
 add_ace resource.extendedmode command.remove_principal allow
 
-start mysql-async
-start extendedmode
+ensure mysql-async
+ensure extendedmode
 
-start esx_menu_default
-start esx_menu_list
-start esx_menu_dialog
+ensure esx_menu_default
+ensure esx_menu_list
+ensure esx_menu_dialog
 ```
+
+If all goes well, you will see the message `[ExtendedMode] [INFO] ExtendedMode has been initialized` appear in your server console without any errors.
 
 ## Legal
 
-### License
+### Licenses
 
-# extendedmode - es_extended community fork
+#### extendedmode - es_extended community fork
 
 All changes after 04/04/2020 are provided by their respective authors under the GNUGPLv3 license.
 
-# es_extended
-es_extended - EssentialMode Extended framework for FiveM
+#### es_extended - EssentialMode Extended framework for FiveM
 
 Copyright (C) 2015-2020 Jérémie N'gadi
 
