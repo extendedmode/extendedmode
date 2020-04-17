@@ -209,7 +209,13 @@ end
 
 ESX.StartDBSync = function()
 	function saveData()
-		ESX.SavePlayers()
+		ESX.SavePlayers(function(result)
+			if result then
+				print('[ExtendedMode] [^2INFO^7] Automatically saved all player data')
+			else
+				print('[ExtendedMode] [^3WARNING^7] Failed to automatically save player data! This may be caused by an internal error on the MySQL server.')
+			end
+		end)
 		SetTimeout(10 * 60 * 1000, saveData)
 	end
 
