@@ -130,11 +130,25 @@ end, true, {help = _U('command_setgroup'), validate = true, arguments = {
 }})
 
 ESX.RegisterCommand('save', 'admin', function(xPlayer, args, showError)
-	ESX.SavePlayer(args.playerId)
+	print(('[ExtendedMode] [^2INFO^7] Manual player data save triggered for "%s"'):format(args.playerId.name))
+	ESX.SavePlayer(args.playerId, function(rowsChanged)
+		if rowsChanged ~= 0 then
+			print(('[ExtendedMode] [^2INFO^7] Saved player data for "%s"'):format(args.playerId.name))
+		else
+			print(('[ExtendedMode] [^3WARNING^7] Failed to save player data for "%s"! This may be caused by an internal error on the MySQL server.'):format(args.playerId.name))
+		end
+	end)
 end, true, {help = _U('command_save'), validate = true, arguments = {
 	{name = 'playerId', help = _U('commandgeneric_playerid'), type = 'player'}
 }})
 
 ESX.RegisterCommand('saveall', 'admin', function(xPlayer, args, showError)
-	ESX.SavePlayers()
+	print('[ExtendedMode] [^2INFO^7] Manual player data save triggered')
+	ESX.SavePlayers(function(result)
+		if result then
+			print('[ExtendedMode] [^2INFO^7] Saved all player data')
+		else
+			print('[ExtendedMode] [^3WARNING^7] Failed to save player data! This may be caused by an internal error on the MySQL server.')
+		end
+	end)
 end, true, {help = _U('command_saveall')})
