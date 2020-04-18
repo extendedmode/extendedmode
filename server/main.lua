@@ -517,11 +517,9 @@ AddEventHandler('es_db:retrieveUser', function(identifier, cb, tries)
 		local player = ESX.GetPlayerFromIdentifier(identifier)
 
 		if player then
-			print("Returning user: " .. player.identifier)
 			cb({permission_level = 0, money = player.getMoney(), bank = 0, identifier = player.identifier, license = player.get("license"), group = player.group, roles = ""}, false, true)
 		else
 			print("Try: " .. tostring(tries))
-			Citizen.SetTimeout(100, function()
 				TriggerEvent("es_db:retrieveUser", identifier, cb, tries)
 			end)
 		end
