@@ -45,6 +45,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	self.setMoney = function(money)
 		money = ESX.Math.Round(money)
 		self.setAccountMoney('money', money)
+		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.setMoney(money) end)
 	end
 
 	self.getMoney = function()
@@ -52,11 +53,13 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.addMoney = function(money)
+		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.addMoney(money) end)
 		money = ESX.Math.Round(money)
 		self.addAccountMoney('money', money)
 	end
 
 	self.removeMoney = function(money)
+		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.removeMoney(money) end)
 		money = ESX.Math.Round(money)
 		self.removeAccountMoney('money', money)
 	end
@@ -66,6 +69,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.setGroup = function(newGroup)
+		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set("group", newGroup) end)
 		ExecuteCommand(('remove_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
 		self.group = newGroup
 		ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
@@ -76,6 +80,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.set = function(k, v)
+		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
 		self.variables[k] = v
 	end
 
