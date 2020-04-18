@@ -42,24 +42,33 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		DropPlayer(self.source, reason)
 	end
 
-	self.setMoney = function(money)
+	self.setMoney = function(money, recursion)
 		money = ESX.Math.Round(money)
 		self.setAccountMoney('money', money)
-		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.setMoney(money) end)
+
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.setMoney(money) end)
+		end
 	end
 
 	self.getMoney = function()
 		return self.getAccount('money').money
 	end
 
-	self.addMoney = function(money)
-		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.addMoney(money) end)
+	self.addMoney = function(money, recursion)
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.addMoney(money) end)
+		end
+
 		money = ESX.Math.Round(money)
 		self.addAccountMoney('money', money)
 	end
 
-	self.removeMoney = function(money)
-		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.removeMoney(money) end)
+	self.removeMoney = function(money, recursion)
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.removeMoney(money) end)
+		end
+
 		money = ESX.Math.Round(money)
 		self.removeAccountMoney('money', money)
 	end
@@ -68,8 +77,11 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return self.identifier
 	end
 
-	self.setGroup = function(newGroup)
-		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set("group", newGroup) end)
+	self.setGroup = function(newGroup, recursion)
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set("group", newGroup) end)
+		end
+
 		ExecuteCommand(('remove_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
 		self.group = newGroup
 		ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
@@ -79,8 +91,11 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return self.group
 	end
 
-	self.set = function(k, v)
-		TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
+	self.set = function(k, v, recursion)
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
+		end
+		
 		self.variables[k] = v
 	end
 
