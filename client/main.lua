@@ -60,6 +60,11 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 	end)
 end)
 
+RegisterNetEvent('es:activateMoney')
+AddEventHandler('es:activateMoney', function(money)
+	ESX.PlayerData.money = money
+end)
+
 RegisterNetEvent('esx:setMaxWeight')
 AddEventHandler('esx:setMaxWeight', function(newMaxWeight) ESX.PlayerData.maxWeight = newMaxWeight end)
 
