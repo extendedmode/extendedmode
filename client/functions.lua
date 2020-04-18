@@ -302,7 +302,7 @@ end
 ExM.Game.CreatePed = function(pedModel, pedCoords, isNetworked, pedType)
 	local vector = type(pedCoords) == "vector4" and pedCoords or type(pedCoords) == "vector3" and vector4(pedCoords, 0.0)
 	pedType = pedType ~= nil and pedType or 4
-	ESX.Streaming.RequestModel(pedModel)
+	ExM.Streaming.RequestModel(pedModel)
 	return CreatePed(pedType, pedModel, vector, isNetworked)
 end
 
@@ -310,7 +310,7 @@ ExM.Game.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
 	-- Quick simple function to run an animation
 	local flags = upperbodyOnly == true and 16 or 0
 	local runTime = duration ~= nil and duration or -1
-	ESX.Streaming.RequestAnimDict(animDict)
+	ExM.Streaming.RequestAnimDict(animDict)
 	TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
 	RemoveAnimDict(animDict)
 end
@@ -1177,6 +1177,85 @@ CreateThread(function()
 				if currTime >= ESX.TimeoutCallbacks[i].time then
 					ESX.TimeoutCallbacks[i].cb()
 					ESX.TimeoutCallbacks[i] = nil
+				end
+			end
+		end
+	end
+end)
+
+ExM.Markers = {}
+ExM.Markers.Table = {}
+
+ExM.Markers.Add = function(mType, mPos, red, green, blue, alpha, rangeToShow, bobUpAndDown, mScale, mRot, mDir, faceCamera, textureDict, textureName)
+	rangeToShow = rangeToShow ~= nil and rangeToShow or 50.0
+	mScale = mScale ~= nil and mScale or vec(1, 1, 1)
+	mDir = mDir ~= nil and mDir or vec(0, 0, 0)
+	mRot = mRot ~= nil and mRot or vec(0, 0, 0)
+	bobUpAndDown = bobUpAndDown or false
+	faceCamera = faceCamera or false
+	textureDict = textureDict or nil
+	textureName = textureName or nil
+	
+	if textureDict ~= nil then
+		ExM.Streaming.RequestStreamedTextureDict(textureDict)
+	end
+	
+	local markerData = {
+		range = rangeToShow,
+		type = mType,
+		pos = mPos,
+		dir = mDir,
+		rot = mRot,
+		scale = mScale,
+		r = red,
+		g = green,
+		b = blue,
+		a = alpha,
+		bob = bobUpAndDown,
+		faceCam = faceCamera,
+		dict = textureDict,
+		name = textureName,
+		isInside = false,
+		deleteNow = false
+	}
+	local tableKey = tostring(markerData)
+    ExM.Markers.Table[tableKey] = markerData
+
+    return tableKey
+end
+
+ExM.Markers.Remove = function(markerKey)
+	ExM.Markers.Table[markerKey].deleteNow = true
+	local textureDict = ExM.Markers.Table[markerKey].dict
+	if textureDict ~= nil then
+		SetStreamedTextureDictAsNoLongerNeeded(textureDict)
+	end
+end
+
+ExM.Markers.In = function(markerKey)
+	return ExM.Markers.Table[markerKey].isInside
+end
+
+local markerWait = 500
+CreateThread(function()
+	while true do
+		Wait(markerWait)
+		local ped = PlayerPedId()
+		local pedCoords = GetEntityCoords(ped)
+		markerWait = 500
+		
+		for markerKey, marker in pairs(ExM.Markers.Table) do
+			if marker.deleteNow then
+				marker = nilmark
+			else
+				if #(pedCoords - marker.pos) < marker.range then
+					markerWait = 1
+					DrawMarker(marker.type, marker.pos, marker.dir, marker.rot, marker.scale, marker.r, marker.g, marker.b, marker.a, marker.bob, marker.faceCam, 0, false, marker.dict, marker.name, false)
+				end
+				if #(pedCoords - marker.pos) < (marker.scale.x / 2) then
+					marker.isInside = true
+				else
+					marker.isInside = false
 				end
 			end
 		end
