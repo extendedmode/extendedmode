@@ -519,7 +519,7 @@ AddEventHandler('es_db:retrieveUser', function(identifier, cb, tries)
 		if player then
 			cb({permission_level = 0, money = player.getMoney(), bank = 0, identifier = player.identifier, license = player.get("license"), group = player.group, roles = ""}, false, true)
 		else
-			print("Try: " .. tostring(tries))
+			Citizen.SetTimeout(100, function()
 				TriggerEvent("es_db:retrieveUser", identifier, cb, tries)
 			end)
 		end
