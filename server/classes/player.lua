@@ -56,17 +56,17 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.addMoney = function(money, recursion)
-		if(not recursion)then
-			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.addMoney(money) end)
-		end
-
 		money = ESX.Math.Round(money)
 		self.addAccountMoney('money', money)
+
+		if(not recursion)then
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.addMoney(money, true) end)
+		end
 	end
 
 	self.removeMoney = function(money, recursion)
 		if(not recursion)then
-			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.removeMoney(money) end)
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.removeMoney(money, true) end)
 		end
 
 		money = ESX.Math.Round(money)
@@ -95,7 +95,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		if(not recursion)then
 			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
 		end
-		
+
 		self.variables[k] = v
 	end
 
