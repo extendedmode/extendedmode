@@ -25,3 +25,5 @@ Config.PrimaryIdentifier	= "steam" -- Options: steam, license (social club), fiv
 -- then this will make them invisible until the actual outfit/model has loaded, this looks better than
 -- loading another model then changing it immediately after
 Config.DefaultPlayerModel	= `mp_m_freemode_01` 
+
+Config.DefaultPickupModel = `prop_money_bag_01`
