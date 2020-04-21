@@ -282,6 +282,11 @@ RegisterNetEvent('esx:removePickup')
 AddEventHandler('esx:removePickup', function(id)
 	if pickups[id] and pickups[id].object then
 		ESX.Game.DeleteObject(pickups[id].object)
+		if pickup.type == 'item_weapon' then
+			RemoveWeaponAsset(pickup.name)
+		else
+			SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
+		end
 		pickups[id] = nil
 	end
 end)
@@ -412,7 +417,7 @@ CreateThread(function()
 							GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
 						end
 					else
-						ESX.Game.SpawnLocalObject(`prop_money_bag_01`, pickup.coords, function(obj)
+						ESX.Game.SpawnLocalObject(Config.DefaultPickupModel, pickup.coords, function(obj)
 							pickup.object = obj
 						end)
 
@@ -429,6 +434,11 @@ CreateThread(function()
 			else
 				if DoesEntityExist(pickup.object) then
 					DeleteObject(pickup.object)
+					if pickup.type == 'item_weapon' then
+						RemoveWeaponAsset(pickup.name)
+					else
+						SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
+					end
 				end
 			end
 			
