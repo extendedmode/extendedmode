@@ -280,14 +280,15 @@ end)
 
 RegisterNetEvent('esx:removePickup')
 AddEventHandler('esx:removePickup', function(id)
-	if pickups[id] and pickups[id].object then
-		ESX.Game.DeleteObject(pickups[id].object)
-		if pickups[id].type == 'item_weapon' then
-			RemoveWeaponAsset(pickups[id].name)
+	local pickup = pickups[id]
+	if pickup and pickup.object then
+		ESX.Game.DeleteObject(pickup.object)
+		if pickup.type == 'item_weapon' then
+			RemoveWeaponAsset(pickup.name)
 		else
 			SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
 		end
-		pickups[id] = nil
+		pickup = nil
 	end
 end)
 
