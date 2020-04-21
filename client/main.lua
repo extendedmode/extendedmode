@@ -236,82 +236,36 @@ AddEventHandler('esx:spawnVehicle', function(vehicle)
 	end
 end)
 
+-- Removed drawing pickups here immediately and decided to add them to a table instead
+-- Also made createMissingPickups use the other pickup function instead of having the
+-- same code twice, further down we cull pickups when not needed
+
+function AddPickup(pickupId, pickupLabel, pickupCoords, pickupType, pickupName, pickupComponents, pickupTint)
+	pickups[pickupId] = {
+		label = pickupLabel,
+		textRange = false,
+		coords = pickupCoords,
+		type = pickupType,
+		name = pickupName,
+		components = pickupComponents,
+		tint = pickupTint,
+		object = nil
+	}
+end
+
 RegisterNetEvent('esx:createPickup')
-AddEventHandler('esx:createPickup', function(pickupId, label, playerId, type, name, components, tintIndex)
+AddEventHandler('esx:createPickup', function(pickupId, label, playerId, pickupType, name, components, tintIndex)
 	local playerPed = GetPlayerPed(GetPlayerFromServerId(playerId))
-	local entityCoords, forward, pickupObject = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
+	local entityCoords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
 	local objectCoords = (entityCoords + forward * 1.0)
 
-	if type == 'item_weapon' then
-		ESX.Streaming.RequestWeaponAsset(GetHashKey(name))
-		pickupObject = CreateWeaponObject(GetHashKey(name), 50, objectCoords, true, 1.0, 0)
-		SetWeaponObjectTintIndex(pickupObject, tintIndex)
-
-		for k,v in ipairs(components) do
-			local component = ESX.GetWeaponComponent(name, v)
-			GiveWeaponComponentToWeaponObject(pickupObject, component.hash)
-		end
-	else
-		ESX.Game.SpawnLocalObject('prop_money_bag_01', objectCoords, function(obj)
-			pickupObject = obj
-		end)
-
-		while not pickupObject do
-			Wait(10)
-		end
-	end
-
-	SetEntityAsMissionEntity(pickupObject, true, false)
-	PlaceObjectOnGroundProperly(pickupObject)
-	FreezeEntityPosition(pickupObject, true)
-	-- Remove the pickup collisions, also done the same in the local one below
-	SetEntityCollision(pickupObject, false, true)
-
-	pickups[pickupId] = {
-		id = pickupId,
-		obj = pickupObject,
-		label = label,
-		inRange = false,
-		coords = objectCoords
-	}
+	AddPickup(pickupId, label, objectCoords, pickupType, name, components, tintIndex)
 end)
 
 RegisterNetEvent('esx:createMissingPickups')
 AddEventHandler('esx:createMissingPickups', function(missingPickups)
-	for pickupId,pickup in pairs(missingPickups) do
-		local pickupObject = nil
-
-		if pickup.type == 'item_weapon' then
-			ESX.Streaming.RequestWeaponAsset(GetHashKey(pickup.name))
-			pickupObject = CreateWeaponObject(GetHashKey(pickup.name), 50, pickup.coords.x, pickup.coords.y, pickup.coords.z, true, 1.0, 0)
-			SetWeaponObjectTintIndex(pickupObject, pickup.tintIndex)
-
-			for k,componentName in ipairs(pickup.components) do
-				local component = ESX.GetWeaponComponent(pickup.name, componentName)
-				GiveWeaponComponentToWeaponObject(pickupObject, component.hash)
-			end
-		else
-			ESX.Game.SpawnLocalObject('prop_money_bag_01', pickup.coords, function(obj)
-				pickupObject = obj
-			end)
-
-			while not pickupObject do
-				Wait(10)
-			end
-		end
-
-		SetEntityAsMissionEntity(pickupObject, true, false)
-		PlaceObjectOnGroundProperly(pickupObject)
-		FreezeEntityPosition(pickupObject, true)
-		SetEntityCollision(pickupObject, false, true)
-
-		pickups[pickupId] = {
-			id = pickupId,
-			obj = pickupObject,
-			label = pickup.label,
-			inRange = false,
-			coords = vector3(pickup.coords.x, pickup.coords.y, pickup.coords.z)
-		}
+	for pickupId, pickup in pairs(missingPickups) do
+		AddPickup(pickupId, pickup.label, vect(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
 	end
 end)
 
@@ -326,8 +280,8 @@ end)
 
 RegisterNetEvent('esx:removePickup')
 AddEventHandler('esx:removePickup', function(id)
-	if pickups[id] and pickups[id].obj then
-		ESX.Game.DeleteObject(pickups[id].obj)
+	if pickups[id] and pickups[id].object then
+		ESX.Game.DeleteObject(pickups[id].object)
 		pickups[id] = nil
 	end
 end)
@@ -439,26 +393,61 @@ CreateThread(function()
 		local playerCoords, letSleep = GetEntityCoords(playerPed), true
 		-- For whatever reason there was a constant check to get the closest player here when it
 		-- wasn't even being used
+		
+		-- Major refactor here, this culls the pickups if not within range.
 
-		for k,v in pairs(pickups) do
-			local distance = #(playerCoords - v.coords)
+		for pickupId, pickup in pairs(pickups) do
+			local distance = #(playerCoords - pickup.coords)
+			
+			if distance < 50 then
+				if not DoesEntityExist(pickup.object) then
+					letSleep = false
+					if pickup.type == 'item_weapon' then
+						ESX.Streaming.RequestWeaponAsset(pickup.name)
+						pickup.object = CreateWeaponObject(pickup.name, 50, pickup.coords, true, 1.0, 0)
+						SetWeaponObjectTintIndex(pickup.object, pickup.tint)
 
+						for _, comp in ipairs(pickup.components) do
+							local component = ESX.GetWeaponComponent(pickup.name, comp)
+							GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
+						end
+					else
+						ESX.Game.SpawnLocalObject(`prop_money_bag_01`, pickup.coords, function(obj)
+							pickup.object = obj
+						end)
+
+						while not pickup.object do
+							Wait(10)
+						end
+					end
+
+					SetEntityAsMissionEntity(pickup.object, true, false)
+					PlaceObjectOnGroundProperly(pickup.object)
+					FreezeEntityPosition(pickup.object, true)
+					SetEntityCollision(pickup.object, false, true)
+				end
+			else
+				if DoesEntityExist(pickup.object) then
+					DeleteObject(pickup.object)
+				end
+			end
+			
 			if distance < 5 then
-				local label = v.label
+				local label = pickup.label
 				letSleep = false
 
 				if distance < 1 then
 					if IsControlJustReleased(0, 38) then
 						-- Removed the closestDistance check here, not needed
-						if IsPedOnFoot(playerPed) and not v.inRange then
-							v.inRange = true
+						if IsPedOnFoot(playerPed) and not pickup.textRange then
+							pickup.textRange = true
 
 							local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-							ESX.Streaming.RequestAnimDict(dict)
-							TaskPlayAnim(playerPed, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
+							-- Lets use our new function instead of manually doing it
+							ExM.Game.PlayAnim(dict, anim, true, 1000)
 							Wait(1000)
 
-							TriggerServerEvent('esx:onPickup', v.id)
+							TriggerServerEvent('esx:onPickup', pickupId)
 							PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
 						end
 					end
@@ -466,9 +455,9 @@ CreateThread(function()
 					label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
 				end
 
-				ESX.Game.Utils.DrawText3D(vec(v.coords.x, v.coords.y, v.coords.z + 0.25), label, 1.2, 1)
-			elseif v.inRange then
-				v.inRange = false
+				ESX.Game.Utils.DrawText3D(vec(pickup.coords.x, pickup.coords.y, pickup.coords.z + 0.25), label, 1.2, 1)
+			elseif pickup.textRange then
+				pickup.textRange = false
 			end
 		end
 

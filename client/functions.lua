@@ -352,8 +352,9 @@ ESX.Game.Teleport = function(entity, coords, cb)
 	end
 end
 
-ESX.Game.SpawnObject = function(model, coords, cb)
+ESX.Game.SpawnObject = function(model, coords, cb, networked)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
+	networked = networked == nil and true or false
 	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 		
@@ -361,7 +362,6 @@ ESX.Game.SpawnObject = function(model, coords, cb)
 		-- as an Object instead of a hash so it doesn't automatically hash the item
 		model = type(model) == 'number' and model or GetHashKey(model)
 		local obj = CreateObject(model, vector.xyz, true, false, true)
-
 		if cb then
 			cb(obj)
 		end
@@ -369,20 +369,8 @@ ESX.Game.SpawnObject = function(model, coords, cb)
 end
 
 ESX.Game.SpawnLocalObject = function(model, coords, cb)
-	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-
-	CreateThread(function()
-		ESX.Streaming.RequestModel(model)
-
-		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
-		-- as an Object instead of a hash so it doesn't automatically hash the item
-		model = type(model) == 'number' and model or GetHashKey(model)
-		local obj = CreateObject(model, vector.xyz, false, false, true)
-
-		if cb then
-			cb(obj)
-		end
-	end)
+	-- Why have 2 separate functions for this? Just call the other one with an extra param
+	ESX.Game.SpawnObject(model, coords, cb, false)
 end
 
 ESX.Game.DeleteVehicle = function(vehicle)
@@ -395,12 +383,13 @@ ESX.Game.DeleteObject = function(object)
 	DeleteObject(object)
 end
 
-ESX.Game.SpawnVehicle = function(model, coords, heading, cb)
+ESX.Game.SpawnVehicle = function(model, coords, heading, cb, networked)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
+	networked = networked == nil and true or false
 	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 
-		local vehicle = CreateVehicle(model, vector.xyz, heading, true, false)
+		local vehicle = CreateVehicle(model, vector.xyz, heading, networked, false)
 		local id = NetworkGetNetworkIdFromEntity(vehicle)
 
 		SetNetworkIdCanMigrate(id, true)
@@ -422,28 +411,8 @@ ESX.Game.SpawnVehicle = function(model, coords, heading, cb)
 end
 
 ESX.Game.SpawnLocalVehicle = function(model, coords, heading, cb)
-	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-
-	CreateThread(function()
-		ESX.Streaming.RequestModel(model)
-
-		local vehicle = CreateVehicle(model, vector.xyz, heading, false, false)
-
-		SetEntityAsMissionEntity(vehicle, true, false)
-		SetVehicleHasBeenOwnedByPlayer(vehicle, true)
-		SetVehicleNeedsToBeHotwired(vehicle, false)
-		SetModelAsNoLongerNeeded(model)
-		SetVehRadioStation(vehicle, 'OFF')
-		
-		RequestCollisionAtCoord(vector.xyz)
-		while not HasCollisionLoadedAroundEntity(vehicle) do
-			Wait(0)
-		end
-
-		if cb then
-			cb(vehicle)
-		end
-	end)
+	-- Why have 2 separate functions for this? Just call the other one with an extra param
+	ESX.Game.SpawnVehicle(model, coords, heading, cb, false)
 end
 
 ESX.Game.IsVehicleEmpty = function(vehicle)
