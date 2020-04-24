@@ -1215,7 +1215,7 @@ CreateThread(function()
 		
 		for markerKey, marker in pairs(ExM.Markers.Table) do
 			if marker.deleteNow then
-				marker = nilmark
+				marker = nil
 			else
 				if #(pedCoords - marker.pos) < marker.range then
 					markerWait = 1
