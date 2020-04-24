@@ -249,7 +249,8 @@ function AddPickup(pickupId, pickupLabel, pickupCoords, pickupType, pickupName, 
 		name = pickupName,
 		components = pickupComponents,
 		tint = pickupTint,
-		object = nil
+		object = nil,
+		deleteNow = false
 	}
 end
 
@@ -404,71 +405,74 @@ CreateThread(function()
 
 		for pickupId, pickup in pairs(pickups) do
 			local distance = #(playerCoords - pickup.coords)
-			
-			if distance < 50 then
-				if not DoesEntityExist(pickup.object) then
-					letSleep = false
-					if pickup.type == 'item_weapon' then
-						ESX.Streaming.RequestWeaponAsset(pickup.name)
-						pickup.object = CreateWeaponObject(pickup.name, 50, pickup.coords, true, 1.0, 0)
-						SetWeaponObjectTintIndex(pickup.object, pickup.tint)
-
-						for _, comp in ipairs(pickup.components) do
-							local component = ESX.GetWeaponComponent(pickup.name, comp)
-							GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
-						end
-					else
-						ESX.Game.SpawnLocalObject(Config.DefaultPickupModel, pickup.coords, function(obj)
-							pickup.object = obj
-						end)
-
-						while not pickup.object do
-							Wait(10)
-						end
-					end
-
-					SetEntityAsMissionEntity(pickup.object, true, false)
-					PlaceObjectOnGroundProperly(pickup.object)
-					FreezeEntityPosition(pickup.object, true)
-					SetEntityCollision(pickup.object, false, true)
-				end
+			if pickup.deleteNow then
+				pickup = nil
 			else
-				if DoesEntityExist(pickup.object) then
-					DeleteObject(pickup.object)
-					if pickup.type == 'item_weapon' then
-						RemoveWeaponAsset(pickup.name)
-					else
-						SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
+				if distance < 50 then
+					if not DoesEntityExist(pickup.object) then
+						letSleep = false
+						if pickup.type == 'item_weapon' then
+							ESX.Streaming.RequestWeaponAsset(pickup.name)
+							pickup.object = CreateWeaponObject(pickup.name, 50, pickup.coords, true, 1.0, 0)
+							SetWeaponObjectTintIndex(pickup.object, pickup.tint)
+
+							for _, comp in ipairs(pickup.components) do
+								local component = ESX.GetWeaponComponent(pickup.name, comp)
+								GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
+							end
+						else
+							ESX.Game.SpawnLocalObject(Config.DefaultPickupModel, pickup.coords, function(obj)
+								pickup.object = obj
+							end)
+
+							while not pickup.object do
+								Wait(10)
+							end
+						end
+
+						SetEntityAsMissionEntity(pickup.object, true, false)
+						PlaceObjectOnGroundProperly(pickup.object)
+						FreezeEntityPosition(pickup.object, true)
+						SetEntityCollision(pickup.object, false, true)
 					end
-				end
-			end
-			
-			if distance < 5 then
-				local label = pickup.label
-				letSleep = false
-
-				if distance < 1 then
-					if IsControlJustReleased(0, 38) then
-						-- Removed the closestDistance check here, not needed
-						if IsPedOnFoot(playerPed) and not pickup.textRange then
-							pickup.textRange = true
-
-							local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-							-- Lets use our new function instead of manually doing it
-							ExM.Game.PlayAnim(dict, anim, true, 1000)
-							Wait(1000)
-
-							TriggerServerEvent('esx:onPickup', pickupId)
-							PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
+				else
+					if DoesEntityExist(pickup.object) then
+						DeleteObject(pickup.object)
+						if pickup.type == 'item_weapon' then
+							RemoveWeaponAsset(pickup.name)
+						else
+							SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
 						end
 					end
-
-					label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
 				end
+				
+				if distance < 5 then
+					local label = pickup.label
+					letSleep = false
 
-				ESX.Game.Utils.DrawText3D(vec(pickup.coords.x, pickup.coords.y, pickup.coords.z + 0.25), label, 1.2, 1)
-			elseif pickup.textRange then
-				pickup.textRange = false
+					if distance < 1 then
+						if IsControlJustReleased(0, 38) then
+							-- Removed the closestDistance check here, not needed
+							if IsPedOnFoot(playerPed) and not pickup.textRange then
+								pickup.textRange = true
+
+								local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
+								-- Lets use our new function instead of manually doing it
+								ExM.Game.PlayAnim(dict, anim, true, 1000)
+								Wait(1000)
+
+								TriggerServerEvent('esx:onPickup', pickupId)
+								PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
+							end
+						end
+
+						label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
+					end
+
+					ESX.Game.Utils.DrawText3D(vec(pickup.coords.x, pickup.coords.y, pickup.coords.z + 0.25), label, 1.2, 1)
+				elseif pickup.textRange then
+					pickup.textRange = false
+				end
 			end
 		end
 
