@@ -15,7 +15,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	self.weight = weight
 	self.maxWeight = Config.MaxWeight
 
-	ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+	ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.identifier, self.group))
 
 	self.triggerEvent = function(eventName, ...)
 		TriggerClientEvent(eventName, self.source, ...)
