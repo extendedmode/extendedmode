@@ -152,16 +152,18 @@ function loadESXPlayer(identifier, playerId)
 				local count = foundItems[name] or 0
 				if count > 0 then userData.weight = userData.weight + (item.weight * count) end
 
-				table.insert(userData.inventory, {
-					name = name,
-					count = count,
-					label = item.label,
-					weight = item.weight,
-					limit = item.limit,
-					usable = ESX.UsableItemsCallbacks[name] ~= nil,
-					rare = item.rare,
-					canRemove = item.canRemove
-				})
+				if(count > 0)then
+					table.insert(userData.inventory, {
+						name = name,
+						count = count,
+						label = item.label,
+						weight = item.weight,
+						limit = item.limit,
+						usable = ESX.UsableItemsCallbacks[name] ~= nil,
+						rare = item.rare,
+						canRemove = item.canRemove
+					})
+				end
 			end
 
 			table.sort(userData.inventory, function(a, b)
