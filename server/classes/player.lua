@@ -82,9 +82,9 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set("group", newGroup) end)
 		end
 
-		ExecuteCommand(('remove_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+		ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.identifier, self.group))
 		self.group = newGroup
-		ExecuteCommand(('add_principal identifier.steam:%s group.%s'):format(self.identifier, self.group))
+		ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.identifier, self.group))
 	end
 
 	self.getGroup = function()
