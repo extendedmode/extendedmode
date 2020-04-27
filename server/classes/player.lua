@@ -93,7 +93,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 	self.set = function(k, v, recursion)
 		if(not recursion)then
-			TriggerEvent("es:getPlayerFromId", self.source, function(user) user.set(k, v) end)
+			TriggerEvent("es:getPlayerFromId", self.source, function(user) if(user)then user.set(k, v) end end)
 		end
 
 		self.variables[k] = v
@@ -223,10 +223,33 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.getInventoryItem = function(name)
+		local found = false
+		local newItem
+
 		for k,v in ipairs(self.inventory) do
 			if v.name == name then
+				found = true
 				return v
 			end
+		end
+
+		local item = ESX.Items[name]
+
+		if(item)then
+			newItem = {
+				name = name,
+				count = 0,
+				label = item.label,
+				weight = item.weight,
+				limit = item.limit,
+				usable = ESX.UsableItemsCallbacks[name] ~= nil,
+				rare = item.rare,
+				canRemove = item.canRemove
+			}
+
+			table.insert(self.inventory, newItem)
+
+			return newItem
 		end
 
 		return
@@ -241,7 +264,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			self.weight = self.weight + (item.weight * count)
 
 			TriggerEvent('esx:onAddInventoryItem', self.source, item.name, item.count)
-			self.triggerEvent('esx:addInventoryItem', item.name, item.count)
+			self.triggerEvent('esx:addInventoryItem', item.name, item.count, false, item)
 		end
 	end
 

@@ -126,13 +126,32 @@ AddEventHandler('esx:setAccountMoney', function(account)
 end)
 
 RegisterNetEvent('esx:addInventoryItem')
-AddEventHandler('esx:addInventoryItem', function(item, count, showNotification)
+AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, newItem)
+	local found = false
+
 	for k,v in ipairs(ESX.PlayerData.inventory) do
 		if v.name == item then
 			ESX.UI.ShowInventoryItemNotification(true, v.label, count - v.count)
 			ESX.PlayerData.inventory[k].count = count
+
+			found = true
 			break
 		end
+	end
+
+	if(found == false)then
+		ESX.PlayerData.inventory[#ESX.PlayerData.inventory + 1] = {
+			name = newItem.name,
+			count = count,
+			label = newItem.label,
+			weight = newItem.weight,
+			limit = newItem.limit,
+			usable = newItem.usable,
+			rare = newItem.rare,
+			canRemove = newItem.canRemove
+		}
+
+		ESX.UI.ShowInventoryItemNotification(true, newItem.label, 1)
 	end
 
 	if showNotification then
