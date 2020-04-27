@@ -139,9 +139,7 @@ AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, 
 		end
 	end
 
-	-- If the item wasn't found in your inventory -> run
-	if(found == false and newItem --[[Just a check if there is a newItem]])then
-		-- Add item newItem to the players inventory
+	if(found == false)then
 		ESX.PlayerData.inventory[#ESX.PlayerData.inventory + 1] = {
 			name = newItem.name,
 			count = count,
@@ -153,10 +151,7 @@ AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, 
 			canRemove = newItem.canRemove
 		}
 
-		-- Show a notification that a new item was added
-		ESX.UI.ShowInventoryItemNotification(true, newItem.label, count)
-	else
-		print("^1[ExtendedMode]^7 Error: there is an error while trying to add an item to the inventory, item name: " .. item)
+		ESX.UI.ShowInventoryItemNotification(true, newItem.label, 1)
 	end
 
 	if showNotification then
