@@ -233,9 +233,12 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 			end
 		end
 
+		-- Ran only if the item wasn't found in your inventory
 		local item = ESX.Items[name]
 
+		-- if item exists -> run
 		if(item)then
+			-- Create new item
 			newItem = {
 				name = name,
 				count = 0,
@@ -247,8 +250,10 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 				canRemove = item.canRemove
 			}
 
+			-- Insert into players inventory
 			table.insert(self.inventory, newItem)
 
+			-- Return the item that was just added
 			return newItem
 		end
 
