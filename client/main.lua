@@ -289,7 +289,7 @@ AddEventHandler('esx:removePickup', function(id)
 		else
 			SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
 		end
-		pickup = nil
+		pickup.deleteNow = true
 	end
 end)
 
