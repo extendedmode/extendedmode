@@ -151,7 +151,7 @@ AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, 
 			canRemove = newItem.canRemove
 		}
 
-		ESX.UI.ShowInventoryItemNotification(true, newItem.label, 1)
+		ESX.UI.ShowInventoryItemNotification(true, newItem.label, count)
 	end
 
 	if showNotification then
