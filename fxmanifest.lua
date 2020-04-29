@@ -1,7 +1,7 @@
 fx_version 'bodacious'
 game 'gta5'
 description 'extendedmode'
-version '0.0.1'
+version '0.1.1'
 
 resource_type 'gametype' { name = 'extendedmode' }
 
