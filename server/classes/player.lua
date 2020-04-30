@@ -321,6 +321,7 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 				limit = item.limit,
 				usable = ESX.UsableItemsCallbacks[name] ~= nil,
 				rare = item.rare,
+				weight = item.weight || 0,
 				canRemove = item.canRemove
 			}
 
