@@ -1,8 +1,9 @@
-CreateThread(function()
+Citizen.CreateThread(function()
 	local isDead = false
 
 	while true do
-		Wait(0)
+		Citizen.Wait(0)
+
 		local player = PlayerId()
 
 		if NetworkIsPlayerActive(player) then
@@ -11,13 +12,13 @@ CreateThread(function()
 			if IsPedFatallyInjured(playerPed) and not isDead then
 				isDead = true
 
-				local killerEntity, deathCause = GetPedSourceOfDeath(playerPed), GetPedCauseOfDeath(playerPed)
-				local killerClientId = NetworkGetPlayerIndexFromPed(killerEntity)
-
-				if killerEntity ~= playerPed and killerClientId and NetworkIsPlayerActive(killerClientId) then
-					PlayerKilledByPlayer(GetPlayerServerId(killerClientId), killerClientId, deathCause)
+				local killer, killerWeapon = NetworkGetEntityKillerOfPlayer(player)
+				local killerServerId = NetworkGetPlayerIndexFromPed(killer)
+		
+				if killer ~= playerPed and killerServerId ~= nil and NetworkIsPlayerActive(killerServerId) then
+					PlayerKilledByPlayer(GetPlayerServerId(killerServerId), killerServerId, killerWeapon)
 				else
-					PlayerKilled(deathCause)
+					PlayerKilled()
 				end
 
 			elseif not IsPedFatallyInjured(playerPed) then
@@ -27,18 +28,18 @@ CreateThread(function()
 	end
 end)
 
-function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
+function PlayerKilledByPlayer(killerServerId, killerClientId, killerWeapon)
 	local victimCoords = GetEntityCoords(PlayerPedId())
 	local killerCoords = GetEntityCoords(GetPlayerPed(killerClientId))
-	local distance = #(victimCoords - killerCoords)
+	local distance     = GetDistanceBetweenCoords(victimCoords, killerCoords, true)
 
 	local data = {
-		victimCoords = {x = ESX.Math.Round(victimCoords.x, 1), y = ESX.Math.Round(victimCoords.y, 1), z = ESX.Math.Round(victimCoords.z, 1)},
-		killerCoords = {x = ESX.Math.Round(killerCoords.x, 1), y = ESX.Math.Round(killerCoords.y, 1), z = ESX.Math.Round(killerCoords.z, 1)},
+		victimCoords = victimCoords,
+		killerCoords = killerCoords,
 
 		killedByPlayer = true,
-		deathCause = deathCause,
-		distance = ESX.Math.Round(distance, 1),
+		deathCause     = killerWeapon,
+		distance       = ESX.Math.Round(distance, 1),
 
 		killerServerId = killerServerId,
 		killerClientId = killerClientId
@@ -48,15 +49,15 @@ function PlayerKilledByPlayer(killerServerId, killerClientId, deathCause)
 	TriggerServerEvent('esx:onPlayerDeath', data)
 end
 
-function PlayerKilled(deathCause)
+function PlayerKilled()
 	local playerPed = PlayerPedId()
-	local victimCoords = GetEntityCoords(playerPed)
+	local victimCoords = GetEntityCoords(PlayerPedId())
 
 	local data = {
-		victimCoords = {x = ESX.Math.Round(victimCoords.x, 1), y = ESX.Math.Round(victimCoords.y, 1), z = ESX.Math.Round(victimCoords.z, 1)},
+		victimCoords = victimCoords,
 
 		killedByPlayer = false,
-		deathCause = deathCause
+		deathCause     = GetPedCauseOfDeath(playerPed)
 	}
 
 	TriggerEvent('esx:onPlayerDeath', data)

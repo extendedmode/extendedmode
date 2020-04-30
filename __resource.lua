@@ -1,15 +1,22 @@
-fx_version 'bodacious'
-game 'gta5'
-description 'extendedmode'
-version '0.0.1'
+resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
-resource_type 'gametype' { name = 'extendedmode' }
+description 'ES Extended'
+
+version '1.1.0'
 
 server_scripts {
+	'@async/async.lua',
 	'@mysql-async/lib/MySQL.lua',
 
 	'locale.lua',
-	'locales/*.lua',
+	'locales/de.lua',
+	'locales/br.lua',
+	'locales/fr.lua',
+	'locales/en.lua',
+	'locales/fi.lua',
+	'locales/sv.lua',
+	'locales/pl.lua',
+	'locales/cs.lua',
 
 	'config.lua',
 	'config.weapons.lua',
@@ -21,14 +28,20 @@ server_scripts {
 	'server/main.lua',
 	'server/commands.lua',
 
-	'common/modules/math.lua',
-	'common/modules/table.lua',
-	'common/functions.lua'
+	'shared/modules/math.lua',
+	'shared/functions.lua'
 }
 
 client_scripts {
 	'locale.lua',
-	'locales/*.lua',
+	'locales/de.lua',
+	'locales/br.lua',
+	'locales/fr.lua',
+	'locales/en.lua',
+	'locales/fi.lua',
+	'locales/sv.lua',
+	'locales/pl.lua',
+	'locales/cs.lua',
 
 	'config.lua',
 	'config.weapons.lua',
@@ -43,9 +56,8 @@ client_scripts {
 	'client/modules/scaleform.lua',
 	'client/modules/streaming.lua',
 
-	'common/modules/math.lua',
-	'common/modules/table.lua',
-	'common/functions.lua'
+	'shared/modules/math.lua',
+	'shared/functions.lua'
 }
 
 ui_page {
@@ -66,10 +78,7 @@ files {
 	'html/fonts/bankgothic.ttf',
 
 	'html/img/accounts/bank.png',
-	'html/img/accounts/black_money.png',
-	'html/img/accounts/money.png',
-
-	'imports.lua'
+	'html/img/accounts/black_money.png'
 }
 
 exports {
@@ -81,7 +90,7 @@ server_exports {
 }
 
 dependencies {
+	'essentialmode',
 	'mysql-async',
+	'async'
 }
-
-provide 'es_extended'
