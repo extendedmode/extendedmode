@@ -1,13 +1,14 @@
-ESX                      = {}
-ESX.Players              = {}
-ESX.UsableItemsCallbacks = {}
-ESX.Items                = {}
-ESX.ServerCallbacks      = {}
-ESX.TimeoutCount         = -1
-ESX.CancelledTimeouts    = {}
-ESX.LastPlayerData       = {}
-ESX.Pickups              = {}
-ESX.PickupId             = 0
+ESX                      	= {}
+ESX.Players              	= {}
+ESX.UsableItemsCallbacks 	= {}
+ESX.Items                	= {}
+ESX.ServerCallbacks      	= {}
+ESX.TimeoutCount         	= -1
+ESX.CancelledTimeouts    	= {}
+ESX.LastPlayerData       	= {}
+ESX.Pickups              	= {}
+ESX.RegisteredCommands 		= {}
+ESX.PickupId             	= 0
 
 AddEventHandler('esx:getSharedObject', function(cb)
 	cb(ESX)
