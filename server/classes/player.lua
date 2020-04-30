@@ -1,4 +1,4 @@
-function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, lastPosition)
+function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, lastPosition, weight)
 	local self = {}
 
 	self.player       = player
@@ -8,6 +8,8 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 	self.loadout      = loadout
 	self.name         = name
 	self.lastPosition = lastPosition
+	self.weight		  = weight
+	self.maxWeight    = Config.MaxWeight
 
 	self.source     = self.player.get('source')
 	self.identifier = self.player.get('identifier')
@@ -321,7 +323,7 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 				limit = item.limit,
 				usable = ESX.UsableItemsCallbacks[name] ~= nil,
 				rare = item.rare,
-				weight = item.weight || 0,
+				weight = item.weight or 0,
 				canRemove = item.canRemove
 			}
 
@@ -342,6 +344,8 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		local item     = self.getInventoryItem(name)
 		local newCount = item.count + count
 		item.count     = newCount
+
+		self.weight = self.weight + (ESX.Items[name].weight * count)
 
 		TriggerEvent("esx:onAddInventoryItem", self.source, item, count)
 		TriggerClientEvent("esx:addInventoryItem", self.source, item, count)
@@ -369,6 +373,8 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 			}, function(rowsChanged)end)
 		end
 
+		self.weight = self.weight - (ESX.Items[name].weight * count)
+
 		TriggerEvent("esx:onRemoveInventoryItem", self.source, item, count)
 		TriggerClientEvent("esx:removeInventoryItem", self.source, item, count)
 	end
@@ -385,6 +391,21 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 			TriggerEvent("esx:onAddInventoryItem", self.source, item, item.count - oldCount)
 			TriggerClientEvent("esx:addInventoryItem", self.source, item, item.count - oldCount)
 		end
+	end
+
+	self.getWeight = function()
+		return self.weight
+	end
+
+	self.getMaxWeight = function()
+		return self.maxWeight
+	end
+
+	self.canCarryItem = function(name, count)
+		local currentWeight, itemWeight = self.weight, ESX.Items[name].weight
+		local newWeight = currentWeight + (itemWeight * count)
+
+		return newWeight <= self.maxWeight
 	end
 
 	self.setJob = function(name, grade)
