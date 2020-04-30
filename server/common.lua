@@ -26,6 +26,7 @@ MySQL.ready(function()
 				limit     = result[i].limit,
 				rare      = (result[i].rare       == 1 and true or false),
 				canRemove = (result[i].can_remove == 1 and true or false),
+				weight 	  = result[i].weight or 1
 			}
 		end
 	end)

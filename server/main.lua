@@ -8,6 +8,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		job          = {},
 		loadout      = {},
 		playerName   = GetPlayerName(_source),
+		weight		 = 0,
 		lastPosition = nil
 	}
 
@@ -62,8 +63,11 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 						limit     = ESX.Items[inventory[i].item].limit,
 						usable    = ESX.UsableItemsCallbacks[inventory[i].item] ~= nil,
 						rare      = ESX.Items[inventory[i].item].rare,
+						weight	  = ESX.Items[inventory[i].item].weight or 0,
 						canRemove = ESX.Items[inventory[i].item].canRemove
 					})
+
+					if inventory[i].count > 0 then userData.weight = userData.weight + (ESX.Items[inventory[i].item].weight * inventory[i].count) end
 				end
 
 				Async.parallelLimit(tasks2, 5, function(results) end)
@@ -150,7 +154,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		-- Run Tasks
 		Async.parallel(tasks, function(results)
 
-			local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition)
+			local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition, userData.weight)
 
 			xPlayer.getMissingAccounts(function(missingAccounts)
 
