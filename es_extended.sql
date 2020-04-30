@@ -45,7 +45,7 @@ INSERT INTO `jobs` VALUES ('unemployed','Unemployed');
 
 CREATE TABLE `user_accounts` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`identifier` varchar(22) NOT NULL,
+	`identifier` VARCHAR(40) NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`money` double NOT NULL DEFAULT '0',
 
@@ -53,8 +53,8 @@ CREATE TABLE `user_accounts` (
 );
 
 CREATE TABLE `user_inventory` (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-	`identifier` varchar(22) NOT NULL,
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`identifier` VARCHAR(40) NOT NULL,
 	`item` varchar(50) NOT NULL,
 	`count` int(11) NOT NULL,
 
