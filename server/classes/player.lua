@@ -310,6 +310,31 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 				return self.inventory[i]
 			end
 		end
+
+		local item = ESX.Items[name]
+
+		if (item) then
+			newItem = {
+				name = name,
+				count = 0,
+				label = item.label,
+				limit = item.limit,
+				usable = ESX.UsableItemsCallbacks[name] ~= nil,
+				rare = item.rare,
+				canRemove = item.canRemove
+			}
+
+			table.insert(self.inventory, newItem)
+
+			MySQL.Async.execute('INSERT INTO user_inventory (identifier, item, count) VALUES (@identifier, @item, @count)',
+			{
+				['@identifier'] = self.identifier,
+				['@item']       = name,
+				['@count']      = 0
+			}, function(rowsChanged)end)
+
+			return newItem
+		end
 	end
 
 	self.addInventoryItem = function(name, count)
@@ -325,6 +350,23 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		local item     = self.getInventoryItem(name)
 		local newCount = item.count - count
 		item.count     = newCount
+
+		if(item.count == 0) then
+			local index = 0
+			for i=1, #self.inventory, 1 do
+				if self.inventory[i].name == name then
+					index = i
+				end
+			end
+
+			table.remove(self.inventory, index)
+			
+			MySQL.Async.execute('DELETE FROM user_inventory WHERE identifier=@identifier AND item=@item',
+			{
+				['@identifier'] = self.identifier,
+				['@item']       = name
+			}, function(rowsChanged)end)
+		end
 
 		TriggerEvent("esx:onRemoveInventoryItem", self.source, item, count)
 		TriggerClientEvent("esx:removeInventoryItem", self.source, item, count)

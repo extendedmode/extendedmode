@@ -144,11 +144,25 @@ end)
 
 RegisterNetEvent('esx:addInventoryItem')
 AddEventHandler('esx:addInventoryItem', function(item, count)
+	local found = false
 	for i=1, #ESX.PlayerData.inventory, 1 do
 		if ESX.PlayerData.inventory[i].name == item.name then
 			ESX.PlayerData.inventory[i] = item
+			found = true
 			break
 		end
+	end
+
+	if not found then
+		ESX.PlayerData.inventory[#ESX.PlayerData.inventory + 1] = {
+			name = item.name,
+			count = count,
+			label = item.label,
+			limit = item.limit,
+			usable = item.usable,
+			rare = item.rare,
+			canRemove = item.canRemove
+		}
 	end
 
 	ESX.UI.ShowInventoryItemNotification(true, item, count)

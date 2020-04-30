@@ -66,49 +66,6 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 					})
 				end
 
-				for k,v in pairs(ESX.Items) do
-					local found = false
-
-					for j=1, #userData.inventory, 1 do
-						if userData.inventory[j].name == k then
-							found = true
-							break
-						end
-					end
-
-					if not found then
-
-						table.insert(userData.inventory, {
-							name      = k,
-							count     = 0,
-							label     = ESX.Items[k].label,
-							limit     = ESX.Items[k].limit,
-							usable    = ESX.UsableItemsCallbacks[k] ~= nil,
-							rare      = ESX.Items[k].rare,
-							canRemove = ESX.Items[k].canRemove
-						})
-
-						local scope = function(item, identifier)
-
-							table.insert(tasks2, function(cb2)
-								MySQL.Async.execute('INSERT INTO user_inventory (identifier, item, count) VALUES (@identifier, @item, @count)',
-								{
-									['@identifier'] = identifier,
-									['@item']       = item,
-									['@count']      = 0
-								}, function(rowsChanged)
-									cb2()
-								end)
-							end)
-
-						end
-
-						scope(k, player.getIdentifier())
-
-					end
-
-				end
-
 				Async.parallelLimit(tasks2, 5, function(results) end)
 
 				table.sort(userData.inventory, function(a,b)
