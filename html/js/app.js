@@ -22,6 +22,7 @@
 	};
 
 	ESX.updateHUDElement = function (name, data) {
+
 		for (let i = 0; i < ESX.HUDElements.length; i++) {
 			if (ESX.HUDElements[i].name == name) {
 				ESX.HUDElements[i].data = data;
@@ -50,7 +51,7 @@
 		}
 	};
 
-	ESX.inventoryNotification = function (add, label, count) {
+	ESX.inventoryNotification = function (add, item, count) {
 		let notif = '';
 
 		if (add) {
@@ -59,13 +60,10 @@
 			notif += '-';
 		}
 
-		if (count) {
-			notif += count + ' ' + label;
-		} else {
-			notif += ' ' + label;
-		}
+		notif += count + ' ' + item.label;
 
 		let elem = $('<div>' + notif + '</div>');
+
 		$('#inventory_notifications').append(elem);
 
 		$(elem).delay(3000).fadeOut(1000, function () {

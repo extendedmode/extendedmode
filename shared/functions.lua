@@ -18,51 +18,44 @@ ESX.GetConfig = function()
 	return Config
 end
 
-ESX.GetWeapon = function(weaponName)
-	weaponName = string.upper(weaponName)
-
-	for k,v in ipairs(Config.Weapons) do
-		if v.name == weaponName then
-			return k, v
-		end
-	end
-end
-
-ESX.GetWeaponFromHash = function(weaponHash)
-	for k,v in ipairs(Config.Weapons) do
-		if GetHashKey(v.name) == weaponHash then
-			return v
-		end
-	end
-end
-
 ESX.GetWeaponList = function()
 	return Config.Weapons
 end
 
 ESX.GetWeaponLabel = function(weaponName)
 	weaponName = string.upper(weaponName)
+	local weapons = ESX.GetWeaponList()
 
-	for k,v in ipairs(Config.Weapons) do
-		if v.name == weaponName then
-			return v.label
+	for i=1, #weapons, 1 do
+		if weapons[i].name == weaponName then
+			return weapons[i].label
 		end
 	end
 end
 
 ESX.GetWeaponComponent = function(weaponName, weaponComponent)
 	weaponName = string.upper(weaponName)
-	local weapons = Config.Weapons
+	local weapons = ESX.GetWeaponList()
 
-	for k,v in ipairs(Config.Weapons) do
-		if v.name == weaponName then
-			for k2,v2 in ipairs(v.components) do
-				if v2.name == weaponComponent then
-					return v2
+	for i=1, #weapons, 1 do
+		if weapons[i].name == weaponName then
+			for j=1, #weapons[i].components, 1 do
+				if weapons[i].components[j].name == weaponComponent then
+					return weapons[i].components[j]
 				end
 			end
 		end
 	end
+end
+
+ESX.TableContainsValue = function(table, value)
+	for k, v in pairs(table) do
+		if v == value then
+			return true
+		end
+	end
+
+	return false
 end
 
 ESX.DumpTable = function(table, nb)
