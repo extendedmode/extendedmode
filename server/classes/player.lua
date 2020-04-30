@@ -14,6 +14,10 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 	self.source     = self.player.get('source')
 	self.identifier = self.player.get('identifier')
 
+	self.triggerEvent = function(eventName, ...)
+		TriggerClientEvent(eventName, self.source, ...)
+	end
+
 	self.setMoney = function(money)
 		money = ESX.Math.Round(money)
 
