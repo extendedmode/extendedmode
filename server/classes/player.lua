@@ -397,6 +397,11 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		end
 	end
 
+	self.setMaxWeight = function(newWeight)
+		self.maxWeight = newWeight
+		self.triggerEvent('esx:setMaxWeight', self.maxWeight)
+	end
+
 	self.getWeight = function()
 		return self.weight
 	end
