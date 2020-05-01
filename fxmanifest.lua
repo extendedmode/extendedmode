@@ -30,6 +30,7 @@ server_scripts {
 	'server/commands.lua',
 
 	'shared/modules/math.lua',
+	'shared/modules/table.lua',
 	'shared/functions.lua'
 }
 
@@ -58,6 +59,7 @@ client_scripts {
 	'client/modules/streaming.lua',
 
 	'shared/modules/math.lua',
+	'shared/modules/table.lua',
 	'shared/functions.lua'
 }
 
