@@ -271,7 +271,13 @@ AddEventHandler('esx:giveInventoryItem', function(target, type, itemName, itemCo
 		local targetItem = targetXPlayer.getInventoryItem(itemName)
 
 		if itemCount > 0 and sourceItem.count >= itemCount then
-			if targetXPlayer.canCarryItem(itemName, itemCount) then
+			if targetXPlayer.canCarryItem(itemName, itemCount) and Config.UseWeightOnBack then
+				sourceXPlayer.removeInventoryItem(itemName, itemCount)
+				targetXPlayer.addInventoryItem   (itemName, itemCount)
+
+				sourceXPlayer.showNotification(_U('gave_item', itemCount, sourceItem.label, targetXPlayer.name))
+				targetXPlayer.showNotification(_U('received_item', itemCount, sourceItem.label, sourceXPlayer.name))
+			elseif targetXPlayer.canPickupItem(itemName, itemCount) and not Config.UseWeightOnBack then
 				sourceXPlayer.removeInventoryItem(itemName, itemCount)
 				targetXPlayer.addInventoryItem   (itemName, itemCount)
 
