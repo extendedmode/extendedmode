@@ -290,7 +290,7 @@ end)
 RegisterNetEvent('esx:createMissingPickups')
 AddEventHandler('esx:createMissingPickups', function(missingPickups)
 	for pickupId, pickup in pairs(missingPickups) do
-		AddPickup(pickupId, pickup.label, vect(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
+		AddPickup(pickupId, pickup.label, vector3(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
 	end
 end)
 
