@@ -427,7 +427,10 @@ AddEventHandler('esx:onPickup', function(id)
 
 	if pickup then
 		if pickup.type == 'item_standard' then
-			if xPlayer.canCarryItem(pickup.name, pickup.count) then
+			if xPlayer.canCarryItem(pickup.name, pickup.count) and Config.UseWeightOnBack then
+				xPlayer.addInventoryItem(pickup.name, pickup.count)
+				success = true
+			elseif xPlayer.canPickupItem(pickup.name, pickup.count) and not Config.UseWeightOnBack then
 				xPlayer.addInventoryItem(pickup.name, pickup.count)
 				success = true
 			else
