@@ -39,6 +39,15 @@ We have also made some exclusive features for extendedmode only, find them all [
 
 - A fully configured installation of [mysql-async](https://github.com/brouznouf/fivem-mysql-async) (or equivalent)
 
+## Contributing
+
+1) Fork this repository to your own account, then check out the dev branch.
+2) Write your changes.
+3) Test your changes against your own server.
+4) Create a pull request against the "dev" branch.
+
+When contributing code, it's important to include a short summary of what the code does in your pull request so it can be reviewed quickly.
+
 ## Legal
 
 ### Licenses
