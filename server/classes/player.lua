@@ -318,6 +318,17 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 
 		return newWeight <= self.maxWeight
 	end
+	
+	self.canPickupItem = function(itemname, count) --KDxR
+		local item = self.getInventoryItem(itemname)
+		if item and count >= 0 then
+			count = ESX.Math.Round(count)
+
+			return item.limit ~= -1 and (item.count + count) > item.limit
+		end
+		
+		return false
+	end
 
 	self.canSwapItem = function(firstItem, firstItemCount, testItem, testItemCount)
 		local firstItemObject = self.getInventoryItem(firstItem)
