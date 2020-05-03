@@ -178,32 +178,34 @@ ESX.SavePlayer = function(xPlayer, cb)
 	end)
 end
 
-ESX.SavePlayers = function(cb)
-	-- Create sqls table
-	local sqls = {}
+ESX.SavePlayers = function(finishedCB)
+	CreateThread(function()
+		local savedPlayers = 0
+		local playersToSave = #ESX.Players
+		local maxTimeout = 20000
+		local currentTimeout = 0
 	
-	-- Add each player save query and params to the two tables
-	for _, xPlayer in ipairs(ESX.Players) do
-		local query = 'UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier'
-		local parameters = {
-			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
-			['@job'] = xPlayer.job.name,
-			['@job_grade'] = xPlayer.job.grade,
-			['@group'] = xPlayer.getGroup(),
-			['@loadout'] = json.encode(xPlayer.getLoadout(true)),
-			['@position'] = json.encode(xPlayer.getCoords()),
-			['@identifier'] = xPlayer.getIdentifier(),
-			['@inventory'] = json.encode(xPlayer.getInventory(true))
-		}
-		table.insert(sqls, {
-			query = query,
-			parameters = parameters
-		})
-	end
+		-- Save Each player
+		for _, xPlayer in ipairs(ESX.Players) do
+			ESX.SavePlayer(xPlayer, function(rowsChanged)
+				if rowsChanged == 1 then
+					savedPlayers = savedPlayers	+ 1
+				end
+			end)
+		end
 
-	-- Execute the transaction
-	MySQL.ready(function()
-		MySQL.Async.transaction(sqls, cb)
+		-- Call the callback when done
+		while true do
+			Citizen.Wait(500)
+			currentTimeout = currentTimeout + 500
+			if playersToSave == savedPlayers then
+				finishedCB(true)
+				break
+			elseif currentTimeout >= maxTimeout then
+				finishedCB(false)
+				break
+			end
+		end
 	end)
 end
 
