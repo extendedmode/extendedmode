@@ -13,8 +13,8 @@
 
 
 -- Dumping database structure for essentialmodetest2
-CREATE DATABASE IF NOT EXISTS `essentialmodetest2` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `essentialmodetest2`;
+CREATE DATABASE IF NOT EXISTS `essentialmode` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `essentialmode`;
 
 -- Dumping structure for table essentialmodetest2.items
 CREATE TABLE IF NOT EXISTS `items` (
