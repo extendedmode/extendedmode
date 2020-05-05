@@ -164,7 +164,9 @@ ESX.TriggerServerCallback = function(name, requestId, source, cb, ...)
 end
 
 ESX.SavePlayer = function(xPlayer, cb)
-	MySQL.ready(function()
+	if ExM.DatabaseType == "es+esx" then
+		-- Nothing yet ;)
+	elseif ExM.DatabaseType == "newesx" then
 		MySQL.Async.execute('UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier', {
 			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
 			['@job'] = xPlayer.job.name,
@@ -175,7 +177,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 			['@identifier'] = xPlayer.getIdentifier(),
 			['@inventory'] = json.encode(xPlayer.getInventory(true))
 		}, cb)
-	end)
+	end
 end
 
 ESX.SavePlayers = function(finishedCB)
