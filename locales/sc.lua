@@ -36,6 +36,7 @@ Locales['sc'] = {
   ['threw_weapon_already'] = '你已经有同样的武器了',
   ['threw_cannot_pickup'] = '你不能再拿起那个了，因为你的库存已经满了',
   ['threw_pickup_prompt'] = '按 ~y~E~s~ 拿起',
+  ['standard_pickup_prompt'] = '~y~E:~s~ Pickup',
 
   -- Key mapping
   ['keymap_showinventory'] = '显示库存',

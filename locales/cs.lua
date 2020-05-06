@@ -35,7 +35,8 @@ Locales['cs'] = {
   ['threw_weapon_ammo'] = 'vyhodil jsi ~b~%s~s~ s ~o~%sx %s~s~',
   ['threw_weapon_already'] = 'jiz stejnou zbraan mas',
   ['threw_cannot_pickup'] = 'tohle nemuzes sebrat, protoze tvuj inventar je plny',
-  ['threw_pickup_prompt'] = 'stiskni ~y~E~s~ po zvednuti',
+  ['threw_pickup_prompt'] = '~y~E~s~ po zvednuti',
+  ['standard_pickup_prompt'] = '~y~E:~s~ Pickup',
 
   -- Key mapping
   ['keymap_showinventory'] = 'zobrazit inventar', 

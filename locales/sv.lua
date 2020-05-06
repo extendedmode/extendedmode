@@ -36,6 +36,7 @@ Locales['sv'] = {
   ['threw_weapon_already'] = 'du har redan ett sådant vapen på dig',
   ['threw_cannot_pickup'] = 'du kan inte plocka upp det på grund av att det kommer ej få plats i ditt förråd!',
   ['threw_pickup_prompt'] = 'tryck ~y~E~s~ för att plocka upp',
+  ['standard_pickup_prompt'] = '~y~E:~s~ Pickup',
 
   -- Key mapping
   ['keymap_showinventory'] = 'öppna inventory',

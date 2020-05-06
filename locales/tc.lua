@@ -36,6 +36,7 @@ Locales['tc'] = {
   ['threw_weapon_already'] = '您已經有相同的武器了',
   ['threw_cannot_pickup'] = '您不能再撿起該物品，因為您的背包已經滿了',
   ['threw_pickup_prompt'] = '按下 ~y~E~s~ 撿起',
+  ['standard_pickup_prompt'] = '~y~E:~s~ Pickup',
 
   -- Key mapping
   ['keymap_showinventory'] = '顯示背包',

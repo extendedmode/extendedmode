@@ -36,6 +36,7 @@ Locales['br'] = {
   ['threw_weapon_already'] = 'você já esta com essa arma',
   ['threw_cannot_pickup'] = 'você não pode pegar porque seu inventário está cheio!',
   ['threw_pickup_prompt'] = 'pressione ~y~E~s~ para pegar',
+  ['standard_pickup_prompt'] = '~y~E:~s~ Pickup',
 
   -- Key mapping
   ['keymap_showinventory'] = 'exibir inventario',
