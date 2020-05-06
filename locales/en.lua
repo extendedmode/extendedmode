@@ -181,18 +181,74 @@ Locales['en'] = {
   ['gadget_parachute'] = 'parachute',
   ['weapon_flare'] = 'flare gun',
   ['weapon_doubleaction'] = 'double-Action Revolver',
+  ['weapon_pistol_mk2'] = 'pistol Mk2',
+  ['weapon_smg_mk2'] = 'SMG Mk2',
+  ['weapon_assaultrifle_mk2'] = "assault rifle Mk2",
+  ['weapon_carbinerifle_mk2'] = 'carbine rifle Mk2',
+  ['weapon_combatmg_mk2'] = 'combat MG Mk2',
+  ['weapon_pumpshotgun_mk2'] = 'pump shotgun mk2',
+  ['weapon_heavysniper_mk2'] = 'heavy sniper Mk2',
+  ['weapon_snspistol_mk2'] = 'sns pistol Mk2',
+  ['weapon_specialcarbine_mk2'] = 'special carbine Mk2',
+  ['weapon_bullpuprifle_mk2'] = 'bullpup rifle Mk2',
+  ['weapon_marksmanrifle_mk2'] = 'marksman rifle Mk2',
+  ['weapon_revolver_mk2'] = 'heavy revolver Mk2'
 
   -- Weapon Components
-  ['component_clip_default'] = 'default Grip',
-  ['component_clip_extended'] = 'extended Grip',
-  ['component_clip_drum'] = 'drum Magazine',
-  ['component_clip_box'] = 'box Magazine',
-  ['component_flashlight'] = 'flashlight',
-  ['component_scope'] = 'scope',
-  ['component_scope_advanced'] = 'advanced Scope',
-  ['component_suppressor'] = 'suppressor',
-  ['component_grip'] = 'grip',
-  ['component_luxary_finish'] = 'luxary Weapon Finish',
+  ['component_clip_default']      = 'default Clip',
+  ['component_clip_extended']     = 'extended Clip',
+  ['component_clip_drum']         = 'drum Magazine',
+  ['component_clip_box']          = 'box Magazine',
+
+  -- Flashlight
+  ['component_flashlight']        = 'flashlight',
+  
+  -- Scopes
+  ['component_scope']             = 'Scope',
+  ['component_scope_small']       = 'Small Scope',
+  ['component_scope_macro']       = 'Macro Scope',
+  ['component_scope_medium']      = 'Medium Scope',
+  ['component_scope_mounted']     = 'Mounted Scope',
+  ['component_scope_advanced']    = 'Advanced Scope',
+  ['component_scope_zoom']        = 'Extended Scope',
+  ['component_scope_large']       = 'Large Scope',
+  ['component_scope_nightvison']  = 'Nightvision Scope',
+  ['component_scope_thermal']     = 'Thermal Scope',
+
+  -- Barrels / Suppressors
+  ['component_barrel']            = 'Barrel',
+  ['component_barrel_heavy']      = 'Heavy Barrel',
+  ['component_suppressor']        = 'Suppressor',
+  ['component_compensator']       = 'Compensator',
+  
+  -- Grips
+  ['component_grip']              = 'grip',
+
+  -- Muzzles
+  ['component_muzzle_flat']       = 'Flat Muzzle Brake',
+  ['component_muzzle_tatical']    = 'Tactical Muzzle Brake',
+  ['component_muzzle_fat']        = 'Fat-End Muzzle Brake',
+  ['component_muzzle_precision']  = 'Precision Muzzle Brake',
+  ['component_muzzle_heavy']      = 'Heavy Duty Muzzle Brake',
+  ['component_muzzle_slanted']    = 'Slanted Muzzle Brake',
+  ['component_muzzle_split']      = 'Split-End Muzzle Brake',
+  ['component_muzzle_squared']    = 'Square Muzzle Brake',
+  ['component_muzzle_bellend']    = 'Bell-End Muzzle Brake',
+
+  -- Weapon Skins
+  ['component_skin_camo']         = 'Digital Camo',
+  ['component_skin_brushstroke']  = 'Brushstroke Camo',
+  ['component_skin_woodland']     = 'Woodland Camo',
+  ['component_skin_skull']        = 'Skull',
+  ['component_skin_sessanta']     = 'Sessanta Nove',
+  ['component_skin_perseus']      = 'Perseus',
+  ['component_skin_leopard']      = 'Leopard',
+  ['component_skin_zebra']        = 'Zebra',
+  ['component_skin_geometric']    = 'Geometric',
+  ['component_skin_boom']         = 'Boom!',
+  ['component_skin_patriotic']    = 'Patriotic',
+  ['component_luxary_finish']     = 'Luxary',
+}
 
   -- Weapon Ammo
   ['ammo_rounds'] = 'round(s)',

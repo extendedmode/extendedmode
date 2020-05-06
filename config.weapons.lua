@@ -432,6 +432,470 @@ Config.Weapons = {
 		}
 	},
 
+	{
+		name = 'WEAPON_PISTOL_MK2',
+		label = _U('weapon_pistol_mk2'),
+		components = {
+			{ name = 'clip_default', label = _U('component_clip_default'), hash = `COMPONENT_PISTOL_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_PISTOL_MK2_CLIP_02` },
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_PI_FLSH` },
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_PI_SUPP_02` },
+		
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_PISTOL_MK2_CLIP_TRACER` },
+			{ name = 'rounds_hollow', label = _U('component_round_hollow'), hash = `COMPONENT_PISTOL_MK2_CLIP_HOLLOWPOINT` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_PISTOL_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_PISTOL_MK2_CLIP_FMJ` },
+		
+			{ name = 'compensator', label = _U('component_compensator'), hash = `COMPONENT_AT_PI_COMP` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_PISTOL_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_PISTOL_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_PISTOL_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_PISTOL_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_PISTOL_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_PISTOL_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_PISTOL_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_PISTOL_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_PISTOL_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_PISTOL_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_PISTOL_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_REVOLVER_MK2',
+		label = _U('weapon_revolver_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_REVOLVER_MK2_CLIP_01` },
+			
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_REVOLVER_MK2_CLIP_TRACER` },
+			{ name = 'rounds_hollow', label = _U('component_round_hollow'), hash = `COMPONENT_REVOLVER_MK2_CLIP_HOLLOWPOINT` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_REVOLVER_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_REVOLVER_MK2_CLIP_FMJ` },
+
+
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_PI_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_MK2` },
+			{ name = 'scope_small', label = _U('component_scope_small'), hash = `COMPONENT_AT_SCOPE_SMALL_MK2` },
+			
+			{ name = 'compensator', label = _U('component_compensator'), hash = `COMPONENT_AT_PI_COMP_03` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_REVOLVER_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_REVOLVER_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_REVOLVER_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_REVOLVER_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_REVOLVER_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_REVOLVER_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_REVOLVER_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_REVOLVER_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_REVOLVER_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_REVOLVER_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_REVOLVER_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_SNSPISTOL_MK2',
+		label = _U('weapon_snspistol_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_02` },
+
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_TRACER` },
+			{ name = 'rounds_hollow', label = _U('component_round_hollow'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_HOLLOWPOINT` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_SNSPISTOL_MK2_CLIP_FMJ` },
+
+
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_PI_FLSH` },
+
+			{ name = 'scope_mounted', label = _U('component_scope_mounted'), hash = `COMPONENT_AT_PI_RAIL_02` },
+			
+			{ name = 'compensator', label = _U('component_compensator'), hash = `COMPONENT_AT_PI_COMP_02` },
+			
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_PI_SUPP_02` },
+
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_boom'), hash = `COMPONENT_SNSPISTOL_MK2_CAMO_IND_01_SLIDE` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_PUMPSHOTGUN_MK2',
+		label = _U('weapon_pumpshotgun_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CLIP_01` },
+			
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_hollow', label = _U('component_round_hollow'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CLIP_HOLLOWPOINT` },
+			{ name = 'rounds_explosive', label = _U('component_round_explosive'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CLIP_EXPLOSIVE` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CLIP_INCENDIARY` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_MK2` },
+			{ name = 'scope_small', label = _U('component_scope_small'), hash = `COMPONENT_AT_SCOPE_SMALL_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_SC_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_SC_BARREL_02` },
+			
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_SR_SUPP_03` },
+			
+			{ name = 'muzzle_flat', label = _U('component_muzzle_squared'), hash = `COMPONENT_AT_MUZZLE_08` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_PUMPSHOTGUN_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_ASSAULTRIFLE_MK2',
+		label = _U('weapon_assaultrifle_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_02` },
+			
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CLIP_FMJ` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_MK2` },
+			{ name = 'scope_medium', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_MEDIUM_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_SC_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_SC_BARREL_02` },
+			
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_AR_SUPP_02` },
+			
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_ASSAULTRIFLE_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_CARBINERIFLE_MK2',
+		label = _U('weapon_carbinerifle_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_02` },
+			
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_CARBINERIFLE_MK2_CLIP_FMJ` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_MK2` },
+			{ name = 'scope_medium', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_MEDIUM_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_CR_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_CR_BARREL_02` },
+			
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_AR_SUPP_02` },
+			
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_CARBINERIFLE_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{	
+		name = 'WEAPON_SPECIALCARBINE_MK2',
+		label = _U('weapon_specialcarbine_mk2'),
+		components = {
+			{ name = 'clip', label = _U('component_clip_default'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_02` },
+			
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_SPECIALCARBINE_MK2_CLIP_FMJ` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_MK2` },
+			{ name = 'scope_medium', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_MEDIUM_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_SC_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_SC_BARREL_02` },
+			
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_AR_SUPP_02` },
+			
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_SPECIALCARBINE_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{
+		name = 'WEAPON_BULLPUPRIFLE_MK2',
+		label = _U('weapon_bullpuprifle_mk2'),
+		components = {
+			{ name = 'clip_default', label = _U('component_clip_default'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_02` },
+			
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CLIP_FMJ` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_macro', label = _U('component_scope_macro'), hash = `COMPONENT_AT_SCOPE_MACRO_02_MK2` },
+			{ name = 'scope_small', label = _U('component_scope_small'), hash = `COMPONENT_AT_SCOPE_SMALL_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_BP_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_BP_BARREL_02` },
+			
+			{ name = 'suppressor', label = _U('component_scope'), hash = `COMPONENT_AT_AR_SUPP` },
+			
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_BULLPUPRIFLE_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{
+		name = 'WEAPON_COMBATMG_MK2',
+		label = _U('weapon_combatmg_mk2'),
+		components = {
+			{ name = 'clip_default', label = _U('component_clip_default'), hash = `COMPONENT_COMBATMG_MK2_CLIP_02` },
+
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_COMBATMG_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_COMBATMG_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_COMBATMG_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_COMBATMG_MK2_CLIP_FMJ` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_medium', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_MEDIUM_MK2` },
+			{ name = 'scope_small', label = _U('component_scope_small'), hash = `COMPONENT_AT_SCOPE_SMALL_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_MG_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_MG_BARREL_02` },
+					
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+						
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_COMBATMG_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_COMBATMG_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_COMBATMG_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_COMBATMG_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_COMBATMG_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_COMBATMG_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_COMBATMG_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_COMBATMG_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_COMBATMG_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_COMBATMG_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_COMBATMG_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{
+		name = 'WEAPON_HEAVYSNIPER_MK2',
+		label = _U('weapon_heavysniper_mk2'),
+		components = {
+			{ name = 'clip_default', label = _U('component_clip_default'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_02` },
+
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_FMJ` },
+			{ name = 'rounds_explosive', label = _U('component_round_explosive'), hash = `COMPONENT_HEAVYSNIPER_MK2_CLIP_EXPLOSIVE` },
+
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_SR_SUPP_03` },
+
+			{ name = 'scope_large', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_LARGE_MK2` },
+			{ name = 'scope_zoom', label = _U('component_scope_zoom'), hash = `COMPONENT_AT_SCOPE_MAX` },
+			{ name = 'scope_nightvision', label = _U('component_scope_nightvision'), hash = `COMPONENT_AT_SCOPE_NV` },
+			{ name = 'scope_thermal', label = _U('component_scope_nightvision'), hash = `COMPONENT_AT_SCOPE_THERMAL` },
+
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_SR_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_SR_BARREL_02` },
+					
+			{ name = 'muzzle_squared', label = _U('component_muzzle_squared'), hash = `COMPONENT_AT_MUZZLE_08` },
+			{ name = 'muzzle_bellend', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_SR_BARREL_01` },
+			
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_HEAVYSNIPER_MK2_CAMO_IND_01` },
+		}
+	},
+
+	{
+		name = 'WEAPON_MARKSMANRIFLE_MK2',
+		label = _U('weapon_marksmanrifle_mk2'),
+		components = {
+			{ name = 'clip_default', label = _U('component_clip_default'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_01` },
+			{ name = 'clip_extended', label = _U('component_clip_extended'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_02` },
+
+			{ name = 'rounds_tracer', label = _U('component_round_tracer'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_TRACER` },
+			{ name = 'rounds_incendiary', label = _U('component_round_incendiary'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_INCENDIARY` },
+			{ name = 'rounds_piercing', label = _U('component_round_piercing'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_ARMORPIERCING` },
+			{ name = 'rounds_fullmetal', label = _U('component_round_fullmetal'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CLIP_FMJ` },
+			
+			{ name = 'grip', label = _U('component_grip'), hash = `COMPONENT_AT_AR_AFGRIP_02` },
+			
+			{ name = 'flashlight', label = _U('component_flashlight'), hash = `COMPONENT_AT_AR_FLSH` },
+
+			{ name = 'suppressor', label = _U('component_suppressor'), hash = `COMPONENT_AT_AR_SUPP` },
+
+			{ name = 'scope', label = _U('component_scope'), hash = `COMPONENT_AT_SIGHTS` },
+			{ name = 'scope_medium', label = _U('component_scope_medium'), hash = `COMPONENT_AT_SCOPE_MEDIUM_MK2` },
+			{ name = 'scope_zoom', label = _U('component_scope_zoom'), hash = `COMPONENT_AT_SCOPE_LARGE_FIXED_ZOOM_MK2` },
+
+			{ name = 'barrel', label = _U('component_barrel'), hash = `COMPONENT_AT_MRFL_BARREL_01` },
+			{ name = 'barrel_heavy', label = _U('component_barrel_heavy'), hash = `COMPONENT_AT_MRFL_BARREL_02` },
+					
+			{ name = 'muzzle_flat', label = _U('component_muzzle_flat'), hash = `COMPONENT_AT_MUZZLE_01` },
+			{ name = 'muzzle_tatical', label = _U('component_muzzle_tatical'), hash = `COMPONENT_AT_MUZZLE_02` },
+			{ name = 'muzzle_fat', label = _U('component_muzzle_fat'), hash = `COMPONENT_AT_MUZZLE_03` },
+			{ name = 'muzzle_precision', label = _U('component_muzzle_precision'), hash = `COMPONENT_AT_MUZZLE_04` },
+			{ name = 'muzzle_heavy', label = _U('component_muzzle_heavy'), hash = `COMPONENT_AT_MUZZLE_05` },
+			{ name = 'muzzle_slanted', label = _U('component_muzzle_slanted'), hash = `COMPONENT_AT_MUZZLE_06` },
+			{ name = 'muzzle_split', label = _U('component_muzzle_split'), hash = `COMPONENT_AT_MUZZLE_07` },
+			
+			
+			{ name = 'skin_camo', label = _U('component_skin_camo'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO` },
+			{ name = 'skin_brushstroke', label = _U('component_skin_brushstroke'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_02` },
+			{ name = 'skin_woodland', label = _U('component_skin_woodland'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_03` },
+			{ name = 'skin_skull', label = _U('component_skin_skull'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_04` },
+			{ name = 'skin_sessanta', label = _U('component_skin_sessanta'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_05` },
+			{ name = 'skin_perseus', label = _U('component_skin_perseus'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_06` },
+			{ name = 'skin_leopard', label = _U('component_skin_leopard'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_07` },
+			{ name = 'skin_zebra', label = _U('component_skin_zebra'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_08` },
+			{ name = 'skin_geometric', label = _U('component_skin_geometric'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_09` },
+			{ name = 'skin_boom', label = _U('component_skin_boom'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_10` },
+			{ name = 'skin_patriotic', label = _U('component_skin_patriotic'), hash = `COMPONENT_MARKSMANRIFLE_MK2_CAMO_IND_01` },
+		}
+	},
+
 	{name = 'WEAPON_MINIGUN', label = _U('weapon_minigun'), tints = Config.DefaultWeaponTints, components = {}, ammo = {label = _U('ammo_rounds'), hash = `AMMO_MINIGUN`}},
 	{name = 'WEAPON_RAILGUN', label = _U('weapon_railgun'), tints = Config.DefaultWeaponTints, components = {}, ammo = {label = _U('ammo_rounds'), hash = `AMMO_RAILGUN`}},
 	{name = 'WEAPON_STUNGUN', label = _U('weapon_stungun'), tints = Config.DefaultWeaponTints, components = {}},
