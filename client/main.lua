@@ -290,7 +290,7 @@ end)
 RegisterNetEvent('esx:createMissingPickups')
 AddEventHandler('esx:createMissingPickups', function(missingPickups)
 	for pickupId, pickup in pairs(missingPickups) do
-		AddPickup(pickupId, pickup.label, vect(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
+		AddPickup(pickupId, pickup.label, vec(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
 	end
 end)
 
@@ -444,6 +444,16 @@ CreateThread(function()
 								local component = ESX.GetWeaponComponent(pickup.name, comp)
 								GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
 							end
+							
+							SetEntityAsMissionEntity(pickup.object, true, false)
+							PlaceObjectOnGroundProperly(pickup.object)
+							SetEntityRotation(pickup.object, 90.0, 0.0, 0.0)
+							local model = GetEntityModel(pickup.object)
+							local heightAbove = GetEntityHeightAboveGround(pickup.object)
+							local currentCoords = GetEntityCoords(pickup.object)
+							local modelDimensionMin, modelDimensionMax = GetModelDimensions(model)
+							local size = (modelDimensionMax.y - modelDimensionMin.y) / 2
+							SetEntityCoords(pickup.object, currentCoords.x, currentCoords.y, (currentCoords.z - heightAbove) + size)
 						else
 							ESX.Game.SpawnLocalObject(Config.DefaultPickupModel, pickup.coords, function(obj)
 								pickup.object = obj
@@ -452,10 +462,11 @@ CreateThread(function()
 							while not pickup.object do
 								Wait(10)
 							end
+							
+							SetEntityAsMissionEntity(pickup.object, true, false)
+							PlaceObjectOnGroundProperly(pickup.object)
 						end
 
-						SetEntityAsMissionEntity(pickup.object, true, false)
-						PlaceObjectOnGroundProperly(pickup.object)
 						FreezeEntityPosition(pickup.object, true)
 						SetEntityCollision(pickup.object, false, true)
 					end
@@ -490,10 +501,11 @@ CreateThread(function()
 							end
 						end
 
-						label = ('%s~n~%s'):format(label, _U('threw_pickup_prompt'))
+						label = ('%s~n~%s'):format(label, _U('standard_pickup_prompt'))
 					end
-
-					ESX.Game.Utils.DrawText3D(vec(pickup.coords.x, pickup.coords.y, pickup.coords.z + 0.25), label, 1.2, 1)
+					
+					local pickupCoords = GetEntityCoords(pickup.object)
+					ESX.Game.Utils.DrawText3D(vec(pickupCoords.x, pickupCoords.y, pickupCoords.z + 0.5), label, 1.2, 4)
 				elseif pickup.textRange then
 					pickup.textRange = false
 				end
