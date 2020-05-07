@@ -6,6 +6,8 @@ version '0.1.1'
 resource_type 'gametype' { name = 'extendedmode' }
 
 server_scripts {
+	'server/metrics.lua',
+
 	'@mysql-async/lib/MySQL.lua',
 
 	'locale.lua',
