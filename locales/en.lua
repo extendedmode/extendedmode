@@ -192,7 +192,7 @@ Locales['en'] = {
   ['weapon_specialcarbine_mk2'] = 'special carbine Mk2',
   ['weapon_bullpuprifle_mk2'] = 'bullpup rifle Mk2',
   ['weapon_marksmanrifle_mk2'] = 'marksman rifle Mk2',
-  ['weapon_revolver_mk2'] = 'heavy revolver Mk2'
+  ['weapon_revolver_mk2'] = 'heavy revolver Mk2',
 
   -- Weapon Components
   ['component_clip_default']      = 'default Clip',
