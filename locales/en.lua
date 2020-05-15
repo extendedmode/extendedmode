@@ -248,7 +248,6 @@ Locales['en'] = {
   ['component_skin_boom']         = 'Boom!',
   ['component_skin_patriotic']    = 'Patriotic',
   ['component_luxary_finish']     = 'Luxary',
-}
 
   -- Weapon Ammo
   ['ammo_rounds'] = 'round(s)',

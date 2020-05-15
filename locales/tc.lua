@@ -181,6 +181,18 @@ Locales['tc'] = {
   ['gadget_parachute'] = '降落傘',
   ['weapon_flare'] = '信號棒',
   ['weapon_doubleaction'] = '左輪手槍',
+  ['weapon_pistol_mk2'] = 'pistol Mk2',                   -- needs translation
+  ['weapon_smg_mk2'] = 'SMG Mk2',                         -- needs translation
+  ['weapon_assaultrifle_mk2'] = "assault rifle Mk2",      -- needs translation
+  ['weapon_carbinerifle_mk2'] = 'carbine rifle Mk2',      -- needs translation
+  ['weapon_combatmg_mk2'] = 'combat MG Mk2',              -- needs translation
+  ['weapon_pumpshotgun_mk2'] = 'pump shotgun mk2',        -- needs translation
+  ['weapon_heavysniper_mk2'] = 'heavy sniper Mk2',        -- needs translation
+  ['weapon_snspistol_mk2'] = 'sns pistol Mk2',            -- needs translation
+  ['weapon_specialcarbine_mk2'] = 'special carbine Mk2',  -- needs translation
+  ['weapon_bullpuprifle_mk2'] = 'bullpup rifle Mk2',      -- needs translation
+  ['weapon_marksmanrifle_mk2'] = 'marksman rifle Mk2',    -- needs translation
+  ['weapon_revolver_mk2'] = 'heavy revolver Mk2',         -- needs translation
 
   -- Weapon Components
   ['component_clip_default'] = '默認彈夾',
