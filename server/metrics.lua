@@ -30,6 +30,7 @@ function handleMetrics()
     if not (uuid == "unknown") then
         PerformHttpRequest(string.format("%s/metric?uuid=%s", api, uuid), function(responseCode, data, headers)end, 'POST', json.encode({
             hostname = GetConvar("sv_hostname"),
+            players = #GetPlayers(),
             config = Config
         }), { ['Content-Type'] = 'application/json' })
     end
