@@ -1,9 +1,8 @@
 local startMigrate = false
 local migrationRunning = false
 local totalCount = 0
-local currentCount = 1
+local currentCount = 0
 local allIdentifiers = {}
-local allAccounts = {}
 
 RegisterCommand("migratedb", function(source, args)
 	if source == 0 then
@@ -41,75 +40,82 @@ function initiateMigration()
 	print("YOU WILL BE NOTIFIED ONCE THE MIGRATION PROCESS IS COMPLETE!")
 	print("^8----------------------------------------------------------------------------------^0")
 	MySQL.Async.fetchAll('SELECT identifier FROM users', { }, function(identifiers)
-		totalCount = #identifiers
-		for i = 1, #identifiers do
-			allIdentifiers[identifiers[i].identifier] = true
-			if i == #identifiers then
-				processUsers()
-			end
+		for _, ident in ipairs(identifiers) do
+			allIdentifiers[#allIdentifiers + 1] = ident.identifier
 		end
+		totalCount = #allIdentifiers
+		print("^3Total Users: " .. totalCount .. "^0")
+		processUsers()
+	end)
+end
+
+inventTable = {}
+accountTable = {}
+
+function getOldInventory(identifier)
+	MySQL.Async.fetchAll('SELECT * FROM user_inventory WHERE identifier = @identifier', {
+		['@identifier'] = identifier
+	}, function(oldInvent)
+		for _, databaseRow in ipairs(oldInvent) do
+			inventTable[databaseRow.item] = databaseRow.count
+		end
+	end)
+end
+
+function getOldAccounts(identifier)
+	MySQL.Async.fetchAll('SELECT * FROM user_accounts WHERE identifier = @identifier', {
+		['@identifier'] = identifier
+	}, function(oldAccounts)
+		for _, databaseRow in ipairs(oldAccounts) do
+			accountTable[databaseRow.name] = databaseRow.money
+		end
+	end)
+end
+
+function getOldUserAccounts(identifier)
+	MySQL.Async.fetchAll('SELECT bank, money FROM users WHERE identifier = @identifier', {
+		['@identifier'] = identifier
+	}, function(oldUserAccounts)
+		accountTable['bank'] = oldUserAccounts[1].bank
+		accountTable['money'] = oldUserAccounts[1].money
 	end)
 end
 
 function processUsers()
-	for identKey, _ in pairs(allIdentifiers) do
-		local inventTable = {}
-		local accountTable = {}
+	for _, identKey in ipairs(allIdentifiers) do
+		local alreadyDone = false
+		MySQL.Async.fetchAll('SELECT inventory, accounts FROM users WHERE identifier = @identifier', {
+			['@identifier'] = identKey
+		}, function(oldAccounts)
+			if oldAccounts ~= nil then
+				alreadyDone = true
+			end
+		end)
 		
-		local oldInvent = MySQL.Sync.fetchAll('SELECT * FROM user_inventory WHERE identifier = @identifier', { ['@identifier'] = identKey })
-		local oldAccounts = MySQL.Sync.fetchAll('SELECT * FROM user_accounts WHERE identifier = @identifier', { ['@identifier'] = identKey })
-		local oldMoney = MySQL.Sync.fetchScalar('SELECT money FROM users WHERE identifier = @identifier', { ['@identifier'] = identKey })
-		local oldBank = MySQL.Sync.fetchScalar('SELECT bank FROM users WHERE identifier = @identifier', { ['@identifier'] = identKey })
-		
-		for _, databaseRow in ipairs(oldInvent) do
-			inventTable[databaseRow.item] = databaseRow.count
+		if alreadyDone then
+			break
 		end
-		for _, databaseRow in ipairs(oldAccounts) do
-			accountTable[databaseRow.name] = databaseRow.money
-		end
-		accountTable['money'] = oldMoney
-		accountTable['bank'] = oldBank
+	
+		getOldInventory(identKey)		
+		getOldAccounts(identKey)		
+		getOldUserAccounts(identKey)
 		
-		fillInventTable(identKey, inventTable)
-		fillAccountsTable(identKey, accountTable)
-		
-		populateData(identKey)
-		
-		currentCount = currentCount + 1
-		print("Processing " .. identKey .. " ^2" .. currentCount - 1 .. "/" .. totalCount .. "^0")
+		MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
+			['@inventory'] = json.encode(inventTable),
+			['@accounts'] = json.encode(accountTable),
+			['@identifier'] = identKey
+		}, function(rowsChanged)
+			currentCount = currentCount + 1
+			print("Processing " .. identKey .. " ^2" .. currentCount .. "/" .. totalCount .. "^0")
+		end)
 	end
-end
-
-function fillInventTable(identifier, values)
-	allIdentifiers[identifier] = values
-end
-
-function fillAccountsTable(identifier, values)
-	allAccounts[identifier] = values
-end
-
-function runDataSave(identifier, cb)
-	MySQL.Sync.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
-		['@inventory'] = json.encode(allIdentifiers[identifier]),
-		['@accounts'] = json.encode(allAccounts[identifier]),
-		['@identifier'] = identifier
-	}, cb)
-end
-
-function populateData(identifier)
-	runDataSave(identifier, function(rowsChanged)
-		if rowsChanged then
-			allIdentifiers[identifier] = nil
-			allAccounts[identifier] = nil
-		end
-	end)
 end
 
 CreateThread(function()
 	while true do
 		Wait(1000)
 		if migrationRunning then
-			if currentCount == totalCount + 1 then
+			if currentCount == totalCount and currentCount ~= 0 then
 				migrationRunning = false
 				startMigrate = false
 				print("^8----------------------------------------------------------------------------------^0")
