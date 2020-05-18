@@ -82,7 +82,7 @@ MySQL.ready(function()
 			-- Do some other database type validation... (this is temporary!)
 			if ExM.DatabaseType then
 				if ExM.DatabaseType == "es+esx" then
-					print("[ExtendedMode] [^1ERROR^7] Your database is using the 'es+esx' storage format.\nThis version of ExtendedMode is not yet fully compatible with that storage format.\nWe are currently working on full backwards compatibility on the 'esx-1.1-compat' branch if you would like to try it out.")
+					print("[ExtendedMode] [^1ERROR^7] Your database is using the 'es+esx' storage format.\nThis version of ExtendedMode is not yet fully compatible with that storage format.\nYou can try to automatically migrate your database to the correct format using the ^4`migratedb`^0 command directly in your server console.")
 					error()
 				elseif ExM.DatabaseType == "newesx" then -- redundant check as there are no other database types but oh well, future proofing I guess
 					print(("[ExtendedMode] [^2INFO^7] Your database is using the '%s' storage format, starting..."):format(ExM.DatabaseType))
