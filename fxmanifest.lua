@@ -22,6 +22,7 @@ server_scripts {
 	'server/paycheck.lua',
 	'server/main.lua',
 	'server/commands.lua',
+	'server/dbmigrate.lua',
 
 	'common/modules/math.lua',
 	'common/modules/table.lua',
