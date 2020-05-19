@@ -7,6 +7,8 @@ Config.Accounts = {
 	money = _U('account_money')
 }
 
+Config.FirstSpawnCoords = {x = -269.4, y = -955.3, z = 31.2, heading = 205.8}
+
 Config.StartingAccountMoney = {bank = 50000}
 
 Config.EnableSocietyPayouts = false -- pay from the society account that the player is employed at? Requirement: esx_society
