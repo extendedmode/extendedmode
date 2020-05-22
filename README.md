@@ -21,6 +21,8 @@ If you already have an ESX installation please see [this]() guide! (coming soon!
 - [Full Documentation](https://extendedmode.github.io) (Work in Progress!)
 - [ESX Migration Guide]() (coming soon!)
 - [FiveM Native Reference](https://runtime.fivem.net/doc/reference.html)
+- [ExM Discord] (http://discord.gg/qKYBQH8)
+
 
 ## Features
 
