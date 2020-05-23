@@ -317,7 +317,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		local newWeight = currentWeight + (itemWeight * count)
 		local inventoryitem = self.getInventoryItem(name)
 		
-		if ESX.Items[name].limit ~= nil or ESX.Items[name].limit ~= -1 then
+		if ESX.Items[name].limit ~= nil and ESX.Items[name].limit ~= -1 then
 			if count > ESX.Items[name].limit then
 				return false
 			elseif (inventoryitem.count + count) > ESX.Items[name].limit then
