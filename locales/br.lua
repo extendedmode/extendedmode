@@ -199,12 +199,12 @@ Locales['br'] = {
   ['component_clip_extended'] = 'Munição prolongada',
   ['component_clip_drum'] = 'Munição de tambor',
   ['component_clip_box'] = 'Caixa de munição',
-  ['component_flashlight'] = 'Lnterna',
-  ['component_scope'] = 'Mia',
-  ['component_scope_advanced'] = 'Mra avançada',
-  ['component_suppressor'] = 'Spressor',
-  ['component_grip'] = 'Pega
-  ['component_luxary_finish'] = 'Aabamento de arma de luxo',
+  ['component_flashlight'] = 'Lanterna',
+  ['component_scope'] = 'Mira',
+  ['component_scope_advanced'] = 'Mira avançada',
+  ['component_suppressor'] = 'Supressor',
+  ['component_grip'] = 'Pega',
+  ['component_luxary_finish'] = 'Acabamento de arma de luxo',
 
   -- Weapon Ammo
   ['ammo_rounds'] = 'round(s)',
