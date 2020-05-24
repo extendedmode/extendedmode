@@ -279,12 +279,19 @@ function AddPickup(pickupId, pickupLabel, pickupCoords, pickupType, pickupName, 
 end
 
 RegisterNetEvent('esx:createPickup')
-AddEventHandler('esx:createPickup', function(pickupId, label, playerId, pickupType, name, components, tintIndex)
-	local playerPed = GetPlayerPed(GetPlayerFromServerId(playerId))
-	local entityCoords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
-	local objectCoords = (entityCoords + forward * 1.0)
+AddEventHandler('esx:createPickup', function(pickupId, label, playerId, pickupType, name, components, tintIndex, isInfinity, pickupCoords)
+    local playerPed, entityCoords, forward, objectCoords
+    
+    if isInfinity then
+        objectCoords = pickupCoords
+    else
+        playerPed = GetPlayerPed(GetPlayerFromServerId(playerId))
+        entityCoords = GetEntityCoords(playerPed)
+        forward = GetEntityForwardVector(playerPed)
+        objectCoords = (entityCoords + forward * 1.0)
+    end
 
-	AddPickup(pickupId, label, objectCoords, pickupType, name, components, tintIndex)
+    AddPickup(pickupId, label, objectCoords, pickupType, name, components, tintIndex)
 end)
 
 RegisterNetEvent('esx:createMissingPickups')
