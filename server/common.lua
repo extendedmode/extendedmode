@@ -40,6 +40,10 @@ exports("getExtendedModeObject", function()
 	return ExM
 end)
 
+-- Globals to check if OneSync or Infinity for exclusive features
+ExM.IsOneSync = GetConvar('onesync_enabled', false) == 'true'
+ExM.IsInfinity = GetConvar('onesync_enableInfinity', false) == 'true'
+
 ExM.DatabaseReady = false
 ExM.DatabaseType = nil
 
