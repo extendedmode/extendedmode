@@ -96,9 +96,12 @@ function processUsers()
 			break
 		end
 	
-		getOldInventory(identKey)		
-		getOldAccounts(identKey)		
+		getOldInventory(identKey)
+		Wait(100)
+		getOldAccounts(identKey)
+		Wait(100)
 		getOldUserAccounts(identKey)
+		Wait(100)
 		
 		MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
 			['@inventory'] = json.encode(inventTable),
