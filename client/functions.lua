@@ -302,6 +302,7 @@ end
 ExM.Game.CreatePed = function(pedModel, pedCoords, isNetworked, pedType)
 	local vector = type(pedCoords) == "vector4" and pedCoords or type(pedCoords) == "vector3" and vector4(pedCoords, 0.0)
 	pedType = pedType ~= nil and pedType or 4
+	
 	ExM.Streaming.RequestModel(pedModel)
 	return CreatePed(pedType, pedModel, vector, isNetworked)
 end
@@ -310,6 +311,7 @@ ExM.Game.PlayAnim = function(animDict, animName, upperbodyOnly, duration)
 	-- Quick simple function to run an animation
 	local flags = upperbodyOnly == true and 16 or 0
 	local runTime = duration ~= nil and duration or -1
+	
 	ExM.Streaming.RequestAnimDict(animDict)
 	TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
 	RemoveAnimDict(animDict)
@@ -337,6 +339,7 @@ end
 
 ESX.Game.Teleport = function(entity, coords, cb)
 	local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0) or vec(coords.x, coords.y, coords.z, coords.heading or 0.0)
+	
 	if DoesEntityExist(entity) then
 		RequestCollisionAtCoord(vector.xyz)
 		while not HasCollisionLoadedAroundEntity(entity) do
@@ -352,16 +355,18 @@ ESX.Game.Teleport = function(entity, coords, cb)
 	end
 end
 
-ESX.Game.SpawnObject = function(model, coords, cb, networked)
+ESX.Game.SpawnObject = function(model, coords, cb, networked, dynamic)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
 	networked = networked == nil and true or false
+	dynamic = dynamic ~= nil and true or false
+	
 	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 		
 		-- The below has to be done just for CreateObject since for some reason CreateObjects model argument is set
 		-- as an Object instead of a hash so it doesn't automatically hash the item
 		model = type(model) == 'number' and model or GetHashKey(model)
-		local obj = CreateObject(model, vector.xyz, networked, false, true)
+		local obj = CreateObject(model, vector.xyz, networked, false, dynamic)
 		if cb then
 			cb(obj)
 		end
