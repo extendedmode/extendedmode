@@ -299,3 +299,24 @@ ESX.DoesJobExist = function(job, grade)
 
 	return false
 end
+
+if ExM.IsOneSync then
+	ExM.Game = {}
+
+	ExM.Game.SpawnVehicle = function(model, coords)
+		local vector = type(coords) == "vector4" and coords or type(coords) == "vector3" and vector4(coords, 0.0)
+		return CreateVehicle(model, vector.xyzw, true, false)
+	end
+
+	ExM.Game.CreatePed = function(pedModel, pedCoords, pedType)
+		local vector = type(pedCoords) == "vector4" and pedCoords or type(pedCoords) == "vector3" and vector4(pedCoords, 0.0)
+		pedType = pedType ~= nil and pedType or 4
+		return CreatePed(pedType, pedModel, vector.xyzw, true)
+	end
+
+	ExM.Game.SpawnObject = function(model, coords, dynamic)
+		model = type(model) == 'number' and model or GetHashKey(model)
+		dynamic = dynamic ~= nil and true or false
+		return CreateObjectNoOffset(model, coords.xyz, true, dynamic)
+	end
+end
