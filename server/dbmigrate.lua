@@ -15,7 +15,9 @@ RegisterCommand("migratedb", function(source, args)
 					print("^4CREATING MISSING DATABASE FIELDS^0")
 					print("^8YOU MAY SEE ERRORS HERE IF THESE DATABASE FIELDS ALREADY EXIST. JUST IGNORE THEM^0")
 					MySQL.Async.execute('ALTER TABLE `users` ADD `accounts` LONGTEXT NULL DEFAULT NULL, ADD `inventory` LONGTEXT NULL DEFAULT NULL;')
+					Wait(100)
 					MySQL.Async.execute('ALTER TABLE `items` ADD `weight` LONGTEXT NOT NULL DEFAULT 0;')
+					Wait(100)
 					initiateMigration()
 				end
 			else
@@ -56,8 +58,10 @@ function getOldInventory(identifier)
 	MySQL.Async.fetchAll('SELECT * FROM user_inventory WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldInvent)
-		for _, databaseRow in ipairs(oldInvent) do
-			inventTable[databaseRow.item] = databaseRow.count
+		if oldInvent ~= nil then
+			for _, databaseRow in ipairs(oldInvent) do
+				inventTable[databaseRow.item] = databaseRow.count
+			end
 		end
 	end)
 end
@@ -66,8 +70,10 @@ function getOldAccounts(identifier)
 	MySQL.Async.fetchAll('SELECT * FROM user_accounts WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldAccounts)
-		for _, databaseRow in ipairs(oldAccounts) do
-			accountTable[databaseRow.name] = databaseRow.money
+		if oldAccounts ~= nil then
+			for _, databaseRow in ipairs(oldAccounts) do
+				accountTable[databaseRow.name] = databaseRow.money
+			end
 		end
 	end)
 end
@@ -76,8 +82,10 @@ function getOldUserAccounts(identifier)
 	MySQL.Async.fetchAll('SELECT bank, money FROM users WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldUserAccounts)
-		accountTable['bank'] = oldUserAccounts[1].bank
-		accountTable['money'] = oldUserAccounts[1].money
+		if oldUserAccounts ~= nil then
+			accountTable['bank'] = oldUserAccounts[1].bank
+			accountTable['money'] = oldUserAccounts[1].money
+		end
 	end)
 end
 
@@ -92,25 +100,26 @@ function processUsers()
 			end
 		end)
 		
-		if alreadyDone then
-			break
-		end
-	
-		getOldInventory(identKey)
-		Wait(100)
-		getOldAccounts(identKey)
-		Wait(100)
-		getOldUserAccounts(identKey)
-		Wait(100)
+		if not alreadyDone then
+			inventTable = {}
+			accountTable = {}
 		
-		MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
-			['@inventory'] = json.encode(inventTable),
-			['@accounts'] = json.encode(accountTable),
-			['@identifier'] = identKey
-		}, function(rowsChanged)
-			currentCount = currentCount + 1
-			print("Processing " .. identKey .. " ^2" .. currentCount .. "/" .. totalCount .. "^0")
-		end)
+			getOldInventory(identKey)
+			Wait(100)
+			getOldAccounts(identKey)
+			Wait(100)
+			getOldUserAccounts(identKey)
+			Wait(100)
+			
+			MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
+				['@inventory'] = json.encode(inventTable),
+				['@accounts'] = json.encode(accountTable),
+				['@identifier'] = identKey
+			}, function(rowsChanged)
+				currentCount = currentCount + 1
+				print("Processing " .. identKey .. " ^2" .. currentCount .. "/" .. totalCount .. "^0")
+			end)
+		end
 	end
 end
 
