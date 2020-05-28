@@ -156,7 +156,8 @@ AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, 
 		-- Show a notification that a new item was added
 		ESX.UI.ShowInventoryItemNotification(true, newItem.label, count)
 	else
-		print("^1[ExtendedMode]^7 Error: there is an error while trying to add an item to the inventory, item name: " .. item)
+		-- Don't show this error for now
+		-- print("^1[ExtendedMode]^7 Error: there is an error while trying to add an item to the inventory, item name: " .. item)
 	end
 
 	if showNotification then
