@@ -1226,7 +1226,7 @@ CreateThread(function()
 					markerWait = 1
 					DrawMarker(marker.type, marker.pos, marker.dir, marker.rot, marker.scale, marker.r, marker.g, marker.b, marker.a, marker.bob, marker.faceCam, 0, false, marker.dict, marker.name, false)
 				end
-				if #(pedCoords - marker.pos) < (marker.scale.x / 2) then
+				if #(pedCoords - marker.pos) < marker.scale.x then
 					marker.isInside = true
 				else
 					marker.isInside = false
