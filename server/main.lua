@@ -498,16 +498,6 @@ ESX.RegisterServerCallback('esx:getPlayerNames', function(source, cb, players)
 	cb(players)
 end)
 
--- Add support for EssentialMode >6.4.x
-AddEventHandler("es:setMoney", function(user, value) ESX.GetPlayerFromId(user).setMoney(value, true) end)
-AddEventHandler("es:addMoney", function(user, value) ESX.GetPlayerFromId(user).addMoney(value, true) end)
-AddEventHandler("es:removeMoney", function(user, value) ESX.GetPlayerFromId(user).removeMoney(value, true) end)
-AddEventHandler("es:set", function(user, key, value) ESX.GetPlayerFromId(user).set(key, value, true) end)
-
-AddEventHandler("es_db:doesUserExist", function(identifier, cb)
-	cb(true)
-end)
-
 AddEventHandler('es_db:retrieveUser', function(identifier, cb, tries)
 	tries = tries or 0
 
