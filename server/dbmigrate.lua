@@ -16,7 +16,7 @@ RegisterCommand("migratedb", function(source, args)
 					print("^8YOU MAY SEE ERRORS HERE IF THESE DATABASE FIELDS ALREADY EXIST. JUST IGNORE THEM^0")
 					MySQL.Async.execute('ALTER TABLE `users` ADD `accounts` LONGTEXT NULL DEFAULT NULL, ADD `inventory` LONGTEXT NULL DEFAULT NULL;')
 					Wait(100)
-					MySQL.Async.execute('ALTER TABLE `items` ADD `weight` INT(11) NOT NULL DEFAULT 1;')
+					MySQL.Async.execute('ALTER TABLE `items` ADD `weight` INT NOT NULL DEFAULT 1;')
 					Wait(100)
 					initiateMigration()
 				end
