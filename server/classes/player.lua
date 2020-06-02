@@ -51,6 +51,10 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
+	self.getBank = function()
+		return self.getAccount('bank').money
+	end
+
 	self.getMoney = function()
 		return self.getAccount('money').money
 	end
