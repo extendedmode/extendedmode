@@ -55,6 +55,14 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return self.getAccount('bank').money
 	end
 
+	self.removeBank = function(money)
+		self.removeAccountMoney('bank', money)
+	end
+
+	self.addBank = function(money)
+		self.addAccountMoney('bank', money)
+	end
+
 	self.getMoney = function()
 		return self.getAccount('money').money
 	end
