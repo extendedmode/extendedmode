@@ -921,6 +921,7 @@ Config.Weapons = {
 	{name = 'WEAPON_KNIFE', label = _U('weapon_knife'), components = {}},
 	{name = 'WEAPON_NIGHTSTICK', label = _U('weapon_nightstick'), components = {}},
 	{name = 'WEAPON_HAMMER', label = _U('weapon_hammer'), components = {}},
+	{name = 'WEAPON_PIPEWRENCH', label = _U('weapon_pipewrench'), components = {}},
 	{name = 'WEAPON_BAT', label = _U('weapon_bat'), components = {}},
 	{name = 'WEAPON_GOLFCLUB', label = _U('weapon_golfclub'), components = {}},
 	{name = 'WEAPON_CROWBAR', label = _U('weapon_crowbar'), components = {}},
