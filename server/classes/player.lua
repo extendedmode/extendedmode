@@ -331,11 +331,14 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		local firstItemObject = self.getInventoryItem(firstItem)
 		local testItemObject = self.getInventoryItem(testItem)
 
-		if firstItemObject.count >= firstItemCount then
-			local weightWithoutFirstItem = ESX.Math.Round(self.weight - (firstItemObject.weight * firstItemCount))
-			local weightWithTestItem = ESX.Math.Round(weightWithoutFirstItem + (testItemObject.weight * testItemCount))
-
-			return weightWithTestItem <= self.maxWeight
+		if ESX.Items[testItem].limit and ESX.Items[testItem].limit ~= -1 and testItemObject.count + testItemCount > ESX.Items[testItem].limit then
+			return false
+		else
+			if firstItemObject.count >= firstItemCount then
+				local weightWithoutFirstItem = ESX.Math.Round(self.weight - (firstItemObject.weight * firstItemCount))
+				local weightWithTestItem = ESX.Math.Round(weightWithoutFirstItem + (testItemObject.weight * testItemCount))
+				return weightWithTestItem <= self.maxWeight
+			end
 		end
 
 		return false
