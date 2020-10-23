@@ -90,36 +90,45 @@ function getOldUserAccounts(identifier)
 end
 
 function processUsers()
+	local instances = 0
 	for _, identKey in ipairs(allIdentifiers) do
-		local alreadyDone = false
-		MySQL.Async.fetchAll('SELECT inventory, accounts FROM users WHERE identifier = @identifier', {
-			['@identifier'] = identKey
-		}, function(oldAccounts)
-			if oldAccounts ~= nil then
-				alreadyDone = true
+		while instances >= 60 do
+			Citizen.Wait(50)
+		end
+		Citizen.CreateThread(function()
+			instances = instances + 1
+			local alreadyDone = false
+			MySQL.Async.fetchAll('SELECT inventory, accounts FROM users WHERE identifier = @identifier', {
+				['@identifier'] = identKey
+			}, function(oldAccounts)
+				if oldAccounts ~= nil then
+					alreadyDone = true
+				end
+			end)
+			
+			if not alreadyDone then
+				inventTable = {}
+				accountTable = {}
+			
+				getOldInventory(identKey)
+				Wait(100)
+				getOldAccounts(identKey)
+				Wait(100)
+				getOldUserAccounts(identKey)
+				Wait(100)
+				
+				MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
+					['@inventory'] = json.encode(inventTable),
+					['@accounts'] = json.encode(accountTable),
+					['@identifier'] = identKey
+				}, function(rowsChanged)
+					currentCount = currentCount + 1
+					print("Processing " .. identKey .. " ^2" .. currentCount .. "/" .. totalCount .. "^0")
+				end)
+				instances = instances - 1
 			end
 		end)
-		
-		if not alreadyDone then
-			inventTable = {}
-			accountTable = {}
-		
-			getOldInventory(identKey)
-			Wait(100)
-			getOldAccounts(identKey)
-			Wait(100)
-			getOldUserAccounts(identKey)
-			Wait(100)
-			
-			MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
-				['@inventory'] = json.encode(inventTable),
-				['@accounts'] = json.encode(accountTable),
-				['@identifier'] = identKey
-			}, function(rowsChanged)
-				currentCount = currentCount + 1
-				print("Processing " .. identKey .. " ^2" .. currentCount .. "/" .. totalCount .. "^0")
-			end)
-		end
+		Citizen.Wait(10)
 	end
 end
 
