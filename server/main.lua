@@ -139,45 +139,10 @@ function loadESXPlayer(identifier, playerId)
 		if gradeObject.skin_male then userData.job.skin_male = json.decode(gradeObject.skin_male) end
 		if gradeObject.skin_female then userData.job.skin_female = json.decode(gradeObject.skin_female) end
 
-		-- Inventory
+		-- Inventory (hsn-inventory)
 		if result[1].inventory and result[1].inventory ~= '' then
 			userData.inventory = json.decode(result[1].inventory)
 		end
---[[		if result[1].inventory and result[1].inventory ~= '' then
-			local inventory = json.decode(result[1].inventory)
-
-			for name,count in pairs(inventory) do
-				local item = ESX.Items[name]
-
-				if item then
-					foundItems[name] = count
-				else
-					print(('[ExtendedMode] [^3WARNING^7] Ignoring invalid item "%s" for "%s"'):format(name, identifier))
-				end
-			end
-		end
-
-		for name,item in pairs(ESX.Items) do
-			local count = foundItems[name] or 0
-			if count > 0 then userData.weight = userData.weight + (item.weight * count) end
-
-			if(count > 0)then
-				table.insert(userData.inventory, {
-					name = name,
-					count = count,
-					label = item.label,
-					weight = item.weight,
-					limit = item.limit,
-					usable = ESX.UsableItemsCallbacks[name] ~= nil,
-					rare = item.rare,
-					canRemove = item.canRemove
-				})
-			end
-		end
-
-		table.sort(userData.inventory, function(a, b)
-			return a.label < b.label
-		end)]]
 
 		-- Group
 		if result[1].group then
@@ -232,7 +197,6 @@ function loadESXPlayer(identifier, playerId)
 			money = xPlayer.getMoney()
 		})
 
-		xPlayer.triggerEvent('esx:createMissingPickups', ESX.Pickups)
 		xPlayer.triggerEvent('esx:registerSuggestions', ESX.RegisteredCommands)
 	end)
 end

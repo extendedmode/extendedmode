@@ -1,4 +1,5 @@
 CREATE TABLE `users` (
+	`id` int unsigned NOT NULL AUTO_INCREMENT,
 	`identifier` VARCHAR(60) NOT NULL,
 	`license` VARCHAR(60) DEFAULT NULL,
 	`accounts` LONGTEXT NULL DEFAULT NULL,
@@ -9,6 +10,7 @@ CREATE TABLE `users` (
 	`position` VARCHAR(255) NULL DEFAULT NULL,
 
 	PRIMARY KEY (`identifier`)
+	UNIQUE KEY `id` (`id`)
 );
 
 CREATE TABLE `items` (

@@ -390,7 +390,7 @@ end
 
 ESX.Game.SpawnVehicle = function(model, coords, heading, cb, networked)
 	local vector = type(coords) == "vector3" and coords or vec(coords.x, coords.y, coords.z)
-	networked = networked == nil and true or false
+	networked = networked == true or false
 	CreateThread(function()
 		ESX.Streaming.RequestModel(model)
 

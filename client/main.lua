@@ -125,44 +125,6 @@ AddEventHandler('esx:setAccountMoney', function(account)
 	end
 end)
 
-RegisterNetEvent('esx:addInventoryItem')
-AddEventHandler('esx:addInventoryItem', function(item, count, showNotification)
-	for k,v in ipairs(ESX.PlayerData.inventory) do
-		if v.name == item then
-			ESX.UI.ShowInventoryItemNotification(true, v.label, count - v.count)
-			ESX.PlayerData.inventory[k].count = count
-			break
-		end
-	end
-
-	if showNotification then
-		ESX.UI.ShowInventoryItemNotification(true, item, count)
-	end
-
-	if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
-		ESX.ShowInventory()
-	end
-end)
-
-RegisterNetEvent('esx:removeInventoryItem')
-AddEventHandler('esx:removeInventoryItem', function(item, count, showNotification)
-	for k,v in ipairs(ESX.PlayerData.inventory) do
-		if v.name == item then
-			ESX.UI.ShowInventoryItemNotification(false, v.label, v.count - count)
-			ESX.PlayerData.inventory[k].count = count
-			break
-		end
-	end
-
-	--if showNotification then
-	--	ESX.UI.ShowInventoryItemNotification(false, item, count)
-	--end
-
-	if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
-		ESX.ShowInventory()
-	end
-end)
-
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
