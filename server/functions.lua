@@ -167,6 +167,10 @@ ESX.SavePlayer = function(xPlayer, cb)
 	if ExM.DatabaseType == "es+esx" then
 		-- Nothing yet ;)
 	elseif ExM.DatabaseType == "newesx" then
+		local inventory = {}
+		TriggerEvent('hsn-inventory:getplayerInventory', function(data)
+			inventory = data
+		end, xPlayer.identifier)
 		MySQL.Async.execute('UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier', {
 			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
 			['@job'] = xPlayer.job.name,
@@ -175,7 +179,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 			['@loadout'] = json.encode(xPlayer.getLoadout(true)),
 			['@position'] = json.encode(xPlayer.getCoords()),
 			['@identifier'] = xPlayer.getIdentifier(),
-			['@inventory'] = json.encode(xPlayer.getInventory(true))
+			['@inventory'] = json.encode(inventory)
 		}, cb)
 	end
 end

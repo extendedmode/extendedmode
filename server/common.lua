@@ -107,8 +107,10 @@ MySQL.ready(function()
 						label = v.label,
 						weight = v.weight,
 						rare = v.rare,
-						limit = v.limit,
-						canRemove = v.can_remove
+						canRemove = v.can_remove,
+						stackable = v.stackable,
+						description = v.description,
+						closeonuse = v.closeonuse
 					}
 				end
 			end)

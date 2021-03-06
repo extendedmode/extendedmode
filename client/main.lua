@@ -126,38 +126,13 @@ AddEventHandler('esx:setAccountMoney', function(account)
 end)
 
 RegisterNetEvent('esx:addInventoryItem')
-AddEventHandler('esx:addInventoryItem', function(item, count, showNotification, newItem)
-	local found = false
-
+AddEventHandler('esx:addInventoryItem', function(item, count, showNotification)
 	for k,v in ipairs(ESX.PlayerData.inventory) do
 		if v.name == item then
 			ESX.UI.ShowInventoryItemNotification(true, v.label, count - v.count)
 			ESX.PlayerData.inventory[k].count = count
-
-			found = true
 			break
 		end
-	end
-
-	-- If the item wasn't found in your inventory -> run
-	if(found == false and newItem --[[Just a check if there is a newItem]])then
-		-- Add item newItem to the players inventory
-		ESX.PlayerData.inventory[#ESX.PlayerData.inventory + 1] = {
-			name = newItem.name,
-			count = count,
-			label = newItem.label,
-			weight = newItem.weight,
-			limit = newItem.limit,
-			usable = newItem.usable,
-			rare = newItem.rare,
-			canRemove = newItem.canRemove
-		}
-
-		-- Show a notification that a new item was added
-		ESX.UI.ShowInventoryItemNotification(true, newItem.label, count)
-	else
-		-- Don't show this error for now
-		-- print("^1[ExtendedMode]^7 Error: there is an error while trying to add an item to the inventory, item name: " .. item)
 	end
 
 	if showNotification then
@@ -179,9 +154,9 @@ AddEventHandler('esx:removeInventoryItem', function(item, count, showNotificatio
 		end
 	end
 
-	if showNotification then
-		ESX.UI.ShowInventoryItemNotification(false, item, count)
-	end
+	--if showNotification then
+	--	ESX.UI.ShowInventoryItemNotification(false, item, count)
+	--end
 
 	if ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
 		ESX.ShowInventory()
@@ -382,41 +357,6 @@ if Config.EnableHud then
 	end)
 end
 
--- Keep track of ammo usage
-CreateThread(function()
-	while true do
-		Wait(0)
-
-		if isDead then
-			Wait(500)
-		else
-			local playerPed = PlayerPedId()
-
-			if IsPedShooting(playerPed) then
-				local _, weaponHash = GetCurrentPedWeapon(playerPed, true)
-				local weapon = ESX.GetWeaponFromHash(weaponHash)
-
-				if weapon then
-					local ammoCount = GetAmmoInPedWeapon(playerPed, weaponHash)
-					TriggerServerEvent('esx:updateWeaponAmmo', weapon.name, ammoCount)
-				end
-			end
-		end
-	end
-end)
-
-CreateThread(function()
-	while true do
-		Wait(0)
-
-		if IsControlJustReleased(0, 289) then
-			if IsInputDisabled(0) and not isDead and not ESX.UI.Menu.IsOpen('default', 'es_extended', 'inventory') then
-				ESX.ShowInventory()
-			end
-		end
-	end
-end)
-
 -- Disable wanted level
 if Config.DisableWantedLevel then
 	-- Previous they were creating a contstantly running loop to check if the wanted level
@@ -424,107 +364,6 @@ if Config.DisableWantedLevel then
 	SetMaxWantedLevel(0)
 end
 
--- Pickups
-CreateThread(function()
-	while true do
-		Wait(0)
-		local playerPed = PlayerPedId()
-		local playerCoords, letSleep = GetEntityCoords(playerPed), true
-		-- For whatever reason there was a constant check to get the closest player here when it
-		-- wasn't even being used
-		
-		-- Major refactor here, this culls the pickups if not within range.
-
-		for pickupId, pickup in pairs(pickups) do
-			local distance = #(playerCoords - pickup.coords)
-			if pickup.deleteNow then
-				pickup = nil
-			else
-				if distance < 50 then
-					if not DoesEntityExist(pickup.object) then
-						letSleep = false
-						if pickup.type == 'item_weapon' then
-							ESX.Streaming.RequestWeaponAsset(pickup.name)
-							pickup.object = CreateWeaponObject(pickup.name, 50, pickup.coords, true, 1.0, 0)
-							SetWeaponObjectTintIndex(pickup.object, pickup.tint)
-
-							for _, comp in ipairs(pickup.components) do
-								local component = ESX.GetWeaponComponent(pickup.name, comp)
-								GiveWeaponComponentToWeaponObject(pickup.object, component.hash)
-							end
-							
-							SetEntityAsMissionEntity(pickup.object, true, false)
-							PlaceObjectOnGroundProperly(pickup.object)
-							SetEntityRotation(pickup.object, 90.0, 0.0, 0.0)
-							local model = GetEntityModel(pickup.object)
-							local heightAbove = GetEntityHeightAboveGround(pickup.object)
-							local currentCoords = GetEntityCoords(pickup.object)
-							local modelDimensionMin, modelDimensionMax = GetModelDimensions(model)
-							local size = (modelDimensionMax.y - modelDimensionMin.y) / 2
-							SetEntityCoords(pickup.object, currentCoords.x, currentCoords.y, (currentCoords.z - heightAbove) + size)
-						else
-							ESX.Game.SpawnLocalObject(Config.DefaultPickupModel, pickup.coords, function(obj)
-								pickup.object = obj
-							end)
-
-							while not pickup.object do
-								Wait(10)
-							end
-							
-							SetEntityAsMissionEntity(pickup.object, true, false)
-							PlaceObjectOnGroundProperly(pickup.object)
-						end
-
-						FreezeEntityPosition(pickup.object, true)
-						SetEntityCollision(pickup.object, false, true)
-					end
-				else
-					if DoesEntityExist(pickup.object) then
-						DeleteObject(pickup.object)
-						if pickup.type == 'item_weapon' then
-							RemoveWeaponAsset(pickup.name)
-						else
-							SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
-						end
-					end
-				end
-				
-				if distance < 5 then
-					local label = pickup.label
-					letSleep = false
-
-					if distance < 1 then
-						if IsControlJustReleased(0, 38) then
-							-- Removed the closestDistance check here, not needed
-							if IsPedOnFoot(playerPed) and not pickup.textRange then
-								pickup.textRange = true
-
-								local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-								-- Lets use our new function instead of manually doing it
-								ExM.Game.PlayAnim(dict, anim, true, 1000)
-								Wait(1000)
-
-								TriggerServerEvent('esx:onPickup', pickupId)
-								PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
-							end
-						end
-
-						label = ('%s~n~%s'):format(label, _U('standard_pickup_prompt'))
-					end
-					
-					local pickupCoords = GetEntityCoords(pickup.object)
-					ESX.Game.Utils.DrawText3D(vec(pickupCoords.x, pickupCoords.y, pickupCoords.z + 0.5), label, 1.2, 4)
-				elseif pickup.textRange then
-					pickup.textRange = false
-				end
-			end
-		end
-
-		if letSleep then
-			Wait(500)
-		end
-	end
-end)
 
 -- Update current player coords
 CreateThread(function()

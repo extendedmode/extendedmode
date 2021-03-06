@@ -51,6 +51,18 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		end
 	end
 
+	self.getBank = function()
+		return self.getAccount('bank').money
+	end
+
+	self.removeBank = function(money)
+		self.removeAccountMoney('bank', money)
+	end
+
+	self.addBank = function(money)
+		self.addAccountMoney('bank', money)
+	end
+
 	self.getMoney = function()
 		return self.getAccount('money').money
 	end
@@ -183,6 +195,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.setAccountMoney = function(accountName, money)
+		money = tonumber(money)
 		if money >= 0 then
 			local account = self.getAccount(accountName)
 
@@ -192,11 +205,19 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 				account.money = newMoney
 
 				self.triggerEvent('esx:setAccountMoney', account)
+				if accountName ~= 'bank' then
+					local itemCount = exports['hsn-inventory']:getItemCount(self.source, accountName)
+					self.removeInventoryItem(accountName, itemCount)
+					if money > 0 then
+						self.addInventoryItem(accountName, money)
+					end
+				end
 			end
 		end
 	end
 
 	self.addAccountMoney = function(accountName, money)
+		money = tonumber(money)
 		if money > 0 then
 			local account = self.getAccount(accountName)
 
@@ -205,11 +226,20 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 				account.money = newMoney
 
 				self.triggerEvent('esx:setAccountMoney', account)
+				if accountName ~= 'bank' then
+					local itemCount = exports['hsn-inventory']:getItemCount(self.source, accountName)
+					if itemCount < account.money then
+						self.addInventoryItem(accountName, money)
+					elseif itemCount > account.money then
+						self.removeInventoryItem(accountName, money)
+					end
+				end
 			end
 		end
 	end
 
 	self.removeAccountMoney = function(accountName, money)
+		money = tonumber(money)
 		if money > 0 then
 			local account = self.getAccount(accountName)
 
@@ -218,94 +248,54 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 				account.money = newMoney
 
 				self.triggerEvent('esx:setAccountMoney', account)
+				if accountName ~= 'bank' then
+					local itemCount = exports['hsn-inventory']:getItemCount(self.source, accountName)
+					if itemCount < account.money then
+						self.addInventoryItem(accountName, money)
+					elseif itemCount > account.money then
+						self.removeInventoryItem(accountName, money)
+					end
+				end
 			end
 		end
 	end
 
-	self.getInventoryItem = function(name)
-		local found = false
-		local newItem
-
-		for k,v in ipairs(self.inventory) do
-			if v.name == name then
-				found = true
-				return v
-			end
-		end
-
-		-- Ran only if the item wasn't found in your inventory
-		local item = ESX.Items[name]
-
-		-- if item exists -> run
-		if(item)then
-			-- Create new item
-			newItem = {
-				name = name,
-				count = 0,
-				label = item.label,
-				weight = item.weight,
-				limit = item.limit,
-				usable = ESX.UsableItemsCallbacks[name] ~= nil,
-				rare = item.rare,
-				canRemove = item.canRemove
-			}
-
-			-- Insert into players inventory
-			table.insert(self.inventory, newItem)
-
-			-- Return the item that was just added
-			return newItem
-		end
-
-		return
-	end
-
-	self.addInventoryItem = function(name, count)
-		local item = self.getInventoryItem(name)
-
+	self.getInventoryItem = function(name, metadata)
+		local item = exports["hsn-inventory"]:getItem(self.source, name, metadata)
 		if item then
-			count = ESX.Math.Round(count)
-			item.count = item.count + count
-			self.weight = self.weight + (item.weight * count)
+			return item
+		end
+		return 
+	end
 
-			TriggerEvent('esx:onAddInventoryItem', self.source, item.name, item.count)
-			self.triggerEvent('esx:addInventoryItem', item.name, item.count, false, item)
+	self.addInventoryItem = function(name, count, metadata)
+		if name and count > 0 then
+			count = ESX.Math.Round(count)
+			exports["hsn-inventory"]:addItem(self.source, name, count, metadata)
 		end
 	end
 
-	self.removeInventoryItem = function(name, count)
-		local item = self.getInventoryItem(name)
-
-		if item then
+	self.removeInventoryItem = function(name, count, metadata)
+		if name and count > 0 then
 			count = ESX.Math.Round(count)
-			local newCount = item.count - count
-
-			if newCount >= 0 then
-				item.count = newCount
-				self.weight = self.weight - (item.weight * count)
-
-				TriggerEvent('esx:onRemoveInventoryItem', self.source, item.name, item.count)
-				self.triggerEvent('esx:removeInventoryItem', item.name, item.count)
-			end
+			exports["hsn-inventory"]:removeItem(self.source, name, count, metadata)
 		end
 	end
 
-	self.setInventoryItem = function(name, count)
-		local item = self.getInventoryItem(name)
-
+	self.setInventoryItem = function(name, count, metadata)
+		local item = exports["hsn-inventory"]:getItem(self.source, name, metadata)
 		if item and count >= 0 then
 			count = ESX.Math.Round(count)
-
 			if count > item.count then
-				self.addInventoryItem(item.name, count - item.count)
+				self.addInventoryItem(item.name, count - item.count, metadata)
 			else
-				self.removeInventoryItem(item.name, item.count - count)
+				self.removeInventoryItem(item.name, item.count - count, metadata)
 			end
 		end
 	end
 
 	self.getWeight = function()
-		return self.weight
+		return 0 --self.weight
 	end
 
 	self.getMaxWeight = function()
@@ -313,32 +303,15 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.canCarryItem = function(name, count)
-		local currentWeight, itemWeight = self.weight, ESX.Items[name].weight
-		local newWeight = currentWeight + (itemWeight * count)
-		local inventoryitem = self.getInventoryItem(name)
-		
-		if ESX.Items[name].limit ~= nil and ESX.Items[name].limit ~= -1 then
-			if count > ESX.Items[name].limit then
-				return false
-			elseif (inventoryitem.count + count) > ESX.Items[name].limit then
-				return false
-			end
-		end
-		return newWeight <= self.maxWeight
+		return true
 	end
 
 	self.canSwapItem = function(firstItem, firstItemCount, testItem, testItemCount)
-		local firstItemObject = self.getInventoryItem(firstItem)
-		local testItemObject = self.getInventoryItem(testItem)
+		return true
+	end
 
-		if firstItemObject.count >= firstItemCount then
-			local weightWithoutFirstItem = ESX.Math.Round(self.weight - (firstItemObject.weight * firstItemCount))
-			local weightWithTestItem = ESX.Math.Round(weightWithoutFirstItem + (testItemObject.weight * testItemCount))
-
-			return weightWithTestItem <= self.maxWeight
-		end
-
-		return false
+	self.useItem = function(name, metadata)
+		return exports["hsn-inventory"]:useItem(self.source, name, metadata)
 	end
 
 	self.setMaxWeight = function(newWeight)
