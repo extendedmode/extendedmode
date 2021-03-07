@@ -303,7 +303,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	self.canCarryItem = function(name, count)
-		return true
+		return exports["hsn-inventory"]:canCarryItem(self.source, name, count)
 	end
 
 	self.canSwapItem = function(firstItem, firstItemCount, testItem, testItemCount)
