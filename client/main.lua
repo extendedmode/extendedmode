@@ -56,7 +56,6 @@ AddEventHandler('esx:playerLoaded', function(playerData)
 		isLoadoutLoaded = true
 		TriggerServerEvent('esx:onPlayerSpawn')
 		TriggerEvent('esx:onPlayerSpawn')
-		TriggerEvent('esx:restoreLoadout')
 	end)
 end)
 
@@ -198,67 +197,12 @@ AddEventHandler('esx:spawnVehicle', function(vehicle)
 	end
 end)
 
--- Removed drawing pickups here immediately and decided to add them to a table instead
--- Also made createMissingPickups use the other pickup function instead of having the
--- same code twice, further down we cull pickups when not needed
-
-function AddPickup(pickupId, pickupLabel, pickupCoords, pickupType, pickupName, pickupComponents, pickupTint)
-	pickups[pickupId] = {
-		label = pickupLabel,
-		textRange = false,
-		coords = pickupCoords,
-		type = pickupType,
-		name = pickupName,
-		components = pickupComponents,
-		tint = pickupTint,
-		object = nil,
-		deleteNow = false
-	}
-end
-
-RegisterNetEvent('esx:createPickup')
-AddEventHandler('esx:createPickup', function(pickupId, label, playerId, pickupType, name, components, tintIndex, isInfinity, pickupCoords)
-    local playerPed, entityCoords, forward, objectCoords
-    
-    if isInfinity then
-        objectCoords = pickupCoords
-    else
-        playerPed = GetPlayerPed(GetPlayerFromServerId(playerId))
-        entityCoords = GetEntityCoords(playerPed)
-        forward = GetEntityForwardVector(playerPed)
-        objectCoords = (entityCoords + forward * 1.0)
-    end
-
-    AddPickup(pickupId, label, objectCoords, pickupType, name, components, tintIndex)
-end)
-
-RegisterNetEvent('esx:createMissingPickups')
-AddEventHandler('esx:createMissingPickups', function(missingPickups)
-	for pickupId, pickup in pairs(missingPickups) do
-		AddPickup(pickupId, pickup.label, vec(pickup.coords.x, pickup.coords.y, pickup.coords.z), pickup.type, pickup.name, pickup.components, pickup.tintIndex)
-	end
-end)
-
 RegisterNetEvent('esx:registerSuggestions')
 AddEventHandler('esx:registerSuggestions', function(registeredCommands)
 	for name,command in pairs(registeredCommands) do
 		if command.suggestion then
 			TriggerEvent('chat:addSuggestion', ('/%s'):format(name), command.suggestion.help, command.suggestion.arguments)
 		end
-	end
-end)
-
-RegisterNetEvent('esx:removePickup')
-AddEventHandler('esx:removePickup', function(id)
-	local pickup = pickups[id]
-	if pickup and pickup.object then
-		ESX.Game.DeleteObject(pickup.object)
-		if pickup.type == 'item_weapon' then
-			RemoveWeaponAsset(pickup.name)
-		else
-			SetModelAsNoLongerNeeded(Config.DefaultPickupModel)
-		end
-		pickup.deleteNow = true
 	end
 end)
 
@@ -325,7 +269,6 @@ if Config.DisableWantedLevel then
 	-- changed and then setting back to 0. This is all thats needed to disable a wanted level.
 	SetMaxWantedLevel(0)
 end
-
 
 -- Update current player coords
 CreateThread(function()
