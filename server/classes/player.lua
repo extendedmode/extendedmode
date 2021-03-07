@@ -310,10 +310,6 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		return true
 	end
 
-	self.useItem = function(name, metadata)
-		return exports["hsn-inventory"]:useItem(self.source, name, metadata)
-	end
-
 	self.setMaxWeight = function(newWeight)
 		self.maxWeight = newWeight
 		self.triggerEvent('esx:setMaxWeight', self.maxWeight)
