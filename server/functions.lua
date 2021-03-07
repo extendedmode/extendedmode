@@ -266,32 +266,6 @@ ESX.GetItemLabel = function(item)
 	end
 end
 
-ESX.CreatePickup = function(type, name, count, label, playerId, components, tintIndex)
-    local pickupId = (ESX.PickupId == 65635 and 0 or ESX.PickupId + 1)
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    local pedCoords
-    
-    if ExM.IsInfinity then
-        pedCoords = GetEntityCoords(GetPlayerPed(playerId))
-    end
-
-    ESX.Pickups[pickupId] = {
-        type  = type,
-        name  = name,
-        count = count,
-        label = label,
-        coords = xPlayer.getCoords(),
-    }
-
-    if type == 'item_weapon' then
-        ESX.Pickups[pickupId].components = components
-        ESX.Pickups[pickupId].tintIndex = tintIndex
-    end
-
-    TriggerClientEvent('esx:createPickup', -1, pickupId, label, playerId, type, name, components, tintIndex, ExM.IsInfinity, pedCoords)
-    ESX.PickupId = pickupId
-end
-
 ESX.DoesJobExist = function(job, grade)
 	grade = tostring(grade)
 
