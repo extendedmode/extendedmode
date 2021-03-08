@@ -49,11 +49,11 @@ ExM.DatabaseType = nil
 
 print('[ExtendedMode] [^2INFO^7] Starting up...')
 
-MySQL.ready(function()
+exports.ghmattimysql:ready(function()
 	print('[ExtendedMode] [^2INFO^7] Checking your database...')
 	
 	-- Check the information schema for the tables that match the esx ones
-	MySQL.Async.fetchAll("SELECT TABLE_NAME AS 't', COLUMN_NAME AS 'c' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'users' or TABLE_NAME = 'user_inventory' or TABLE_NAME = 'user_accounts'", {}, function(informationSchemaResult)
+	exports.ghmattimysql:execute("SELECT TABLE_NAME AS 't', COLUMN_NAME AS 'c' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'users' or TABLE_NAME = 'user_inventory' or TABLE_NAME = 'user_accounts'", {}, function(informationSchemaResult)
 		local databaseCheckFunction = function()
 			-- Ensure we have a result that we can iterate
 			if type(informationSchemaResult) ~= "table" then
@@ -101,7 +101,7 @@ MySQL.ready(function()
 		end
 
 		if pcall(databaseCheckFunction) then
-			MySQL.Async.fetchAll('SELECT * FROM items', {}, function(result)
+			exports.ghmattimysql:execute('SELECT * FROM items', {}, function(result)
 				for k,v in ipairs(result) do
 					ESX.Items[v.name] = {
 						label = v.label,
@@ -115,13 +115,13 @@ MySQL.ready(function()
 				end
 			end)
 		
-			MySQL.Async.fetchAll('SELECT * FROM jobs', {}, function(jobs)
+			exports.ghmattimysql:execute('SELECT * FROM jobs', {}, function(jobs)
 				for k,v in ipairs(jobs) do
 					ESX.Jobs[v.name] = v
 					ESX.Jobs[v.name].grades = {}
 				end
 		
-				MySQL.Async.fetchAll('SELECT * FROM job_grades', {}, function(jobGrades)
+				exports.ghmattimysql:execute('SELECT * FROM job_grades', {}, function(jobGrades)
 					for k,v in ipairs(jobGrades) do
 						if ESX.Jobs[v.job_name] then
 							ESX.Jobs[v.job_name].grades[tostring(v.grade)] = v
