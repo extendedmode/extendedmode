@@ -39,7 +39,7 @@ We have also made some exclusive features for extendedmode only, find them all [
 
 ## Requirements
 
-- A fully configured installation of [mysql-async](https://github.com/brouznouf/fivem-mysql-async) (or equivalent)
+- A fully configured installation of [ghmattimysql](https://github.com/GHMatti/ghmattimysql/releases/latest) (or equivalent)
 
 ## Contributing
 
