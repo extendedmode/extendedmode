@@ -22,7 +22,7 @@ function onPlayerJoined(playerId)
 		if ESX.GetPlayerFromIdentifier(identifier) then
 			DropPlayer(playerId, ('there was an error loading your character!\nError code: identifier-active-ingame\n\nThis error is caused by a player on this server who has the same identifier as you have. Make sure you are not playing on the same Rockstar account.\n\nYour Rockstar identifier: %s'):format(identifier))
 		else
-			MySQL.Async.fetchScalar('SELECT 1 FROM users WHERE identifier = @identifier', {
+			exports.ghmattimysql:scalar('SELECT 1 FROM users WHERE identifier = @identifier', {
 				['@identifier'] = identifier
 			}, function(result)
 				if result then
@@ -34,7 +34,7 @@ function onPlayerJoined(playerId)
 						accounts[account] = money
 					end
 
-					MySQL.Async.execute('INSERT INTO users (accounts, identifier, license) VALUES (@accounts, @identifier, @license)', {
+					exports.ghmattimysql:execute('INSERT INTO users (accounts, identifier, license) VALUES (@accounts, @identifier, @license)', {
 						['@accounts'] = json.encode(accounts),
 						['@identifier'] = identifier,
 						['@license'] = license,						
@@ -92,7 +92,7 @@ function loadESXPlayer(identifier, playerId)
 		weight = 0
 	}
 
-	MySQL.Async.fetchAll('SELECT accounts, job, job_grade, `group`, loadout, position, inventory FROM users WHERE identifier = @identifier', {
+	exports.ghmattimysql:execute('SELECT accounts, job, job_grade, `group`, loadout, position, inventory FROM users WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(result)
 		local job, grade, jobObject, gradeObject = result[1].job, tostring(result[1].job_grade)

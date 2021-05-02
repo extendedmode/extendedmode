@@ -14,9 +14,9 @@ RegisterCommand("migratedb", function(source, args)
 					print("^8----------------------------------------------------------------------------------^0")
 					print("^4CREATING MISSING DATABASE FIELDS^0")
 					print("^8YOU MAY SEE ERRORS HERE IF THESE DATABASE FIELDS ALREADY EXIST. JUST IGNORE THEM^0")
-					MySQL.Async.execute('ALTER TABLE `users` ADD `accounts` LONGTEXT NULL DEFAULT NULL, ADD `inventory` LONGTEXT NULL DEFAULT NULL;')
+					exports.ghmattimysql:execute('ALTER TABLE `users` ADD `accounts` LONGTEXT NULL DEFAULT NULL, ADD `inventory` LONGTEXT NULL DEFAULT NULL;')
 					Wait(100)
-					MySQL.Async.execute('ALTER TABLE `items` ADD `weight` INT NOT NULL DEFAULT 1;')
+					exports.ghmattimysql:execute('ALTER TABLE `items` ADD `weight` INT NOT NULL DEFAULT 1;')
 					Wait(100)
 					initiateMigration()
 				end
@@ -41,7 +41,7 @@ function initiateMigration()
 	print("^8YOU MAY SEE HITCH WARNINGS DURING THIS PROCESS, THAT IS EXPECTED FOR LARGER DATABASE.^0")
 	print("YOU WILL BE NOTIFIED ONCE THE MIGRATION PROCESS IS COMPLETE!")
 	print("^8----------------------------------------------------------------------------------^0")
-	MySQL.Async.fetchAll('SELECT identifier FROM users', { }, function(identifiers)
+	exports.ghmattimysql:execute('SELECT identifier FROM users', { }, function(identifiers)
 		for _, ident in ipairs(identifiers) do
 			allIdentifiers[#allIdentifiers + 1] = ident.identifier
 		end
@@ -55,7 +55,7 @@ inventTable = {}
 accountTable = {}
 
 function getOldInventory(identifier)
-	MySQL.Async.fetchAll('SELECT * FROM user_inventory WHERE identifier = @identifier', {
+	exports.ghmattimysql:execute('SELECT * FROM user_inventory WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldInvent)
 		if oldInvent ~= nil then
@@ -67,7 +67,7 @@ function getOldInventory(identifier)
 end
 
 function getOldAccounts(identifier)
-	MySQL.Async.fetchAll('SELECT * FROM user_accounts WHERE identifier = @identifier', {
+	exports.ghmattimysql:execute('SELECT * FROM user_accounts WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldAccounts)
 		if oldAccounts ~= nil then
@@ -79,7 +79,7 @@ function getOldAccounts(identifier)
 end
 
 function getOldUserAccounts(identifier)
-	MySQL.Async.fetchAll('SELECT bank, money FROM users WHERE identifier = @identifier', {
+	exports.ghmattimysql:execute('SELECT bank, money FROM users WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	}, function(oldUserAccounts)
 		if oldUserAccounts ~= nil then
@@ -92,7 +92,7 @@ end
 function processUsers()
 	for _, identKey in ipairs(allIdentifiers) do
 		local alreadyDone = false
-		MySQL.Async.fetchAll('SELECT inventory, accounts FROM users WHERE identifier = @identifier', {
+		exports.ghmattimysql:execute('SELECT inventory, accounts FROM users WHERE identifier = @identifier', {
 			['@identifier'] = identKey
 		}, function(oldAccounts)
 			if oldAccounts ~= nil then
@@ -111,7 +111,7 @@ function processUsers()
 			getOldUserAccounts(identKey)
 			Wait(100)
 			
-			MySQL.Async.execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
+			exports.ghmattimysql:execute('UPDATE users SET inventory = @inventory, accounts = @accounts WHERE identifier = @identifier', {
 				['@inventory'] = json.encode(inventTable),
 				['@accounts'] = json.encode(accountTable),
 				['@identifier'] = identKey

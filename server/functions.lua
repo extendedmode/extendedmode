@@ -167,7 +167,7 @@ ESX.SavePlayer = function(xPlayer, cb)
 	if ExM.DatabaseType == "es+esx" then
 		-- Nothing yet ;)
 	elseif ExM.DatabaseType == "newesx" then
-		MySQL.Async.execute('UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier', {
+		exports.ghmattimysql:execute('UPDATE users SET accounts = @accounts, job = @job, job_grade = @job_grade, `group` = @group, loadout = @loadout, position = @position, inventory = @inventory WHERE identifier = @identifier', {
 			['@accounts'] = json.encode(xPlayer.getAccounts(true)),
 			['@job'] = xPlayer.job.name,
 			['@job_grade'] = xPlayer.job.grade,
@@ -180,37 +180,30 @@ ESX.SavePlayer = function(xPlayer, cb)
 	end
 end
 
-ESX.SavePlayers = function(finishedCB)
-	CreateThread(function()
-		local savedPlayers = 0
-		local playersToSave = #ESX.Players
-		local maxTimeout = 20000
-		local currentTimeout = 0
-	
-		-- Save Each player
-		for _, xPlayer in ipairs(ESX.Players) do
+ESX.SavePlayers = function(cb)
+	Citizen.CreateThread(function()
+		local playersToSave, savedPlayers = #ESX.Players, 0
+		local currentTimeout, maxTimeout = 0, 25000
+		for _,xPlayer in ipairs(ESX.Players) do
 			ESX.SavePlayer(xPlayer, function(rowsChanged)
-				if rowsChanged == 1 then
-					savedPlayers = savedPlayers	+ 1
+				if rowsChanged.affectedRows == 1 then
+					savedPlayers = savedPlayers + 1
 				end
 			end)
 		end
-
-		-- Call the callback when done
 		while true do
 			Citizen.Wait(500)
-			currentTimeout = currentTimeout + 500
 			if playersToSave == savedPlayers then
-				finishedCB(true)
+				cb(true)
 				break
 			elseif currentTimeout >= maxTimeout then
-				finishedCB(false)
+				cb(false)
 				break
 			end
+			currentTimeout = currentTimeout + 500
 		end
 	end)
 end
-
 ESX.StartDBSync = function()
 	function saveData()
 		ESX.SavePlayers(function(result)
