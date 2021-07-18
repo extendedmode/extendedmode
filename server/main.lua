@@ -51,7 +51,7 @@ end
 
 AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
 	deferrals.defer()
-	local playerId, identifier = source
+	local playerId, identifier = source, nil
 	Wait(100)
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
@@ -210,7 +210,7 @@ function loadESXPlayer(identifier, playerId)
 			userData.coords = json.decode(result[1].position)
 		else
 			print('[ExtendedMode] [^3WARNING^7] Column "position" in "users" table is missing required default value. Using backup coords, fix your database.')
-			userData.coords = {x = -269.4, y = -955.3, z = 31.2, heading = 205.8}
+			userData.coords = {x = -269.4, y = -955.3, z = 31.2, heading = 25.8} -- 205.8
 		end
 
 		-- Create Extended Player Object
