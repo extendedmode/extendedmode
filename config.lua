@@ -1,5 +1,5 @@
 Config = {}
-Config.Locale = 'en'
+Config.Locale = 'fr'
 
 Config.Accounts = {
 	bank = _U('account_bank'),
@@ -24,6 +24,6 @@ Config.PrimaryIdentifier	= "steam" -- Options: steam, license (social club), fiv
 -- We have set a MP ped as default since if you use another script that controls your player model
 -- then this will make them invisible until the actual outfit/model has loaded, this looks better than
 -- loading another model then changing it immediately after
-Config.DefaultPlayerModel	= `mp_m_freemode_01` 
+Config.DefaultPlayerModel	= "mp_m_freemode_01"
 
-Config.DefaultPickupModel = `prop_money_bag_01`
+Config.DefaultPickupModel = "prop_money_bag_01"

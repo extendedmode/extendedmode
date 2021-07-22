@@ -51,7 +51,7 @@ end
 
 AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
 	deferrals.defer()
-	local playerId, identifier = source
+	local playerId, identifier = source, nil
 	Wait(100)
 
 	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
